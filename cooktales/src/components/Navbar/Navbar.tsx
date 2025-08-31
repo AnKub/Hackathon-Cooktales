@@ -1,4 +1,5 @@
 import React from 'react';
+import './Navbar.scss';
 
 const Navbar: React.FC = () => (
   <nav className="px-6 py-4 flex justify-between items-center">

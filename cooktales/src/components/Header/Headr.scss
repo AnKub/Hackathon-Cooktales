@@ -1,0 +1,27 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: var(--header-bg);
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent);
+  }
+
+  &__theme-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    transition: background 0.2s;
+    &:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+  }
+}

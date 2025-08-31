@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './Sidebar.scss'; 
 
 const Sidebar: React.FC = () => (
-  <aside className="w-56 min-h-full p-4">
+  <aside className="sidebar">
     <nav>
-      <ul className="space-y-2">
+      <ul>
         <li>
           <Link to="/">Home</Link>
         </li>

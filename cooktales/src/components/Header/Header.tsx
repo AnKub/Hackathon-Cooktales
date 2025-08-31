@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Header.scss';
 
 const Header: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');

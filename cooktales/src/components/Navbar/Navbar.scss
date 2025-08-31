@@ -1,0 +1,27 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--header-bg);
+
+  &__logo {
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: var(--accent);
+  }
+
+  &__auth {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    transition: background 0.2s;
+    &:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+  }
+}
