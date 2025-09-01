@@ -1,69 +1,95 @@
-# React + TypeScript + Vite
+# 🍲 Cooktales
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Cooktales** is a modern recipe library app that empowers users to discover, save, and explore their favorite dishes from around the world.  
+Built with **React, TypeScript, SCSS, and Vite**, it features a stylish, responsive interface and a smooth user experience.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- **Browse Global Recipes:**  
+  Search and explore recipes from various world cuisines.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Personal Favorites List:**  
+  Create and manage your own list of favorite recipes for quick access.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Recipe Details:**  
+  View detailed information, ingredients, instructions, and images for each dish.
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **AI-powered Recommendations:**  
+  Get smart suggestions on what you can cook based on the ingredients you have at home.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Sidebar & Navbar:**  
+  Easy navigation throughout the app.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Theme Switcher:**  
+  Toggle between light and dark modes for comfortable viewing.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Footer:**  
+  Informational block with logo and useful links.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **404 Page:**  
+  Stylish page for non-existent routes.
+
+---
+
+## 💡 Concept
+
+Cooktales is more than just a recipe catalog.  
+It’s your personal culinary assistant, helping you:
+
+- Discover new dishes and world cuisines.
+- Save and organize your favorite recipes.
+- Get AI-powered cooking ideas based on your pantry.
+- Enjoy a beautiful, adaptive interface on any device.
+
+---
+
+## 🎨 Technologies
+
+- **React**
+- **TypeScript**
+- **SCSS**
+- **Vite**
+- **Responsive Design**
+- **AI Integration (planned)**
+
+---
+
+## 📱 Responsive
+
+Cooktales looks great on any device — from mobile phones to large monitors.
+
+---
+
+## 🛠️ Getting Started
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/AnKub/Hackathon-Cooktales.git
+   ```
+2. Install dependencies:
+   ```
+   npm install
+   ```
+3. Start the app:
+   ```
+   npm run dev
+   ```
+
+---
+
+## 📷 Preview
+
+![Cooktales Preview](https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg)
+
+---
+
+## 📝 Author
+
+**AnKub**  
+[GitHub](https://github.com/AnKub)
+
+---
+
+> **Cooktales — your personal recipe library and smart cooking assistant!**
