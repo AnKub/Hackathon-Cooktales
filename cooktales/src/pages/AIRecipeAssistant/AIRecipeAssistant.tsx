@@ -25,7 +25,7 @@ const AIRecipeAssistant: React.FC = () => {
   const handleSuggest = async () => {
     setLoading(true);
     setRecipes([]);
-    // Тут буде запит до AI (зараз заглушка)
+    // Тут буде запит до AI 
     setTimeout(() => {
       setRecipes([
         { name: 'Borscht', country: 'Ukraine', flag: '🇺🇦', description: 'Traditional beet soup.' },
@@ -72,7 +72,7 @@ const AIRecipeAssistant: React.FC = () => {
       </button>
       {loading && (
         <div className="ai-loader">
-          {/* Тут може бути SVG-анімація казанка */}
+          {/* Тут SVG-анімація казанка */}
           <span role="img" aria-label="cauldron">🧙‍♀️🍲</span>
           <p>AI is thinking...</p>
         </div>
@@ -92,7 +92,7 @@ const AIRecipeAssistant: React.FC = () => {
             <button className="ai-modal-close" onClick={() => setSelectedRecipe(null)}>×</button>
             <h3>{selectedRecipe.name} {selectedRecipe.flag}</h3>
             <p>{selectedRecipe.description}</p>
-            {/* Тут можна додати інгредієнти, кроки, кнопку "Add to Favorites" */}
+            {/* Тут додати інгредієнти, кроки, кнопку "Add to Favorites" */}
             <button className="ai-favorite-btn">Add to Favorites ⭐</button>
           </div>
         </div>
