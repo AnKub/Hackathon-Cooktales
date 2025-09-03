@@ -14,9 +14,13 @@ const App: React.FC = () => (
   <Router>
     <div className="app-layout">
       <Header />
-      <Navbar />
+      <div className="mobile-only">
+        <Navbar />
+      </div>
       <div className="main-content">
-        <Sidebar />
+        <div className="desktop-only">
+          <Sidebar />
+        </div>
         <div className="page-content">
           <Routes>
             <Route path="/" element={<Home />} />

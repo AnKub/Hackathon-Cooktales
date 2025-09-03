@@ -23,3 +23,16 @@
   --footer-text: #eee;
   --text: #eee;
 }
+
+.desktop-only {
+  display: block;
+  @media (max-width: 900px) {
+    display: none;
+  }
+}
+.mobile-only {
+  display: none;
+  @media (max-width: 900px) {
+    display: block;
+  }
+}
