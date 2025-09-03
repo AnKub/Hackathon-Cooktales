@@ -1,0 +1,39 @@
+.home-page {
+  padding: 2rem;
+  min-height: 70vh;
+
+  .home-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .home-loading {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--accent);
+  }
+
+  .home-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  @media (max-width: 900px) {
+    .home-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    padding: 1rem;
+    .home-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .home-title {
+      font-size: 1.3rem;
+    }
+  }
+}
