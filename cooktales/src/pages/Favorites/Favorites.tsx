@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
-import { getFavorites, FavoriteRecipe } from '../../api/favorites';
+import { getFavorites } from '../../api/favorites';
+import type { FavoriteRecipe } from '../../api/favorites';
 import './Favorites.scss';
 
 const Favorites: React.FC = () => {
