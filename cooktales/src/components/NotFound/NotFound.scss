@@ -1,11 +1,20 @@
-.not-found {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
+.notfound-glass {
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.7);
+  border-radius: 20px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.12);
+  padding: 3rem 2rem;
+  margin: 2rem auto;
+  max-width: 500px;
+  text-align: center;
   h1 {
     font-size: 2rem;
     font-weight: bold;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  p {
+    font-size: 1.1rem;
     color: var(--text);
   }
 }

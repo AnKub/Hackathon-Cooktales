@@ -8,6 +8,7 @@ import Home from './pages/Home/Home';
 import Favorites from './pages/Favorites/Favorites';
 import RecipeDetails from './pages/RecipeDetails/RecipeDetails';
 import NotFound from './components/NotFound/NotFound';
+import AIRecipeAssistant from './pages/AIRecipeAssistant/AIRecipeAssistant';
 
 const App: React.FC = () => (
   <Router>
@@ -20,6 +21,7 @@ const App: React.FC = () => (
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/favorites" element={<Favorites />} />
+            <Route path="/ai-assistant" element={<AIRecipeAssistant />} />
             <Route path="/recipe/:id" element={<RecipeDetails />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

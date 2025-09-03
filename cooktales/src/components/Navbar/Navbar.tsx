@@ -2,9 +2,13 @@ import React from 'react';
 import './Navbar.scss';
 
 const Navbar: React.FC = () => (
-  <nav className="px-6 py-4 flex justify-between items-center">
-    <span className="font-bold text-xl">Cooktales</span>
-    <button className="px-4 py-2 rounded border">Log In / Log Out</button>
+  <nav className="navbar-glass">
+    <span className="navbar-logo">Cooktales</span>
+    <div className="navbar-links">
+      <a href="/">Home</a>
+      <a href="/favorites">Favorites</a>
+      <a href="/ai-assistant">AI Assistant</a>
+    </div>
   </nav>
 );
 

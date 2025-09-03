@@ -1,13 +1,15 @@
-.footer {
+.footer-glass {
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.6);
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
   padding: 2rem;
-  background: var(--footer-bg);
-  color: var(--footer-text);
-
-  &__logo {
+  margin: 1rem;
+  .footer-logo {
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 1rem;
@@ -16,8 +18,7 @@
       display: none;
     }
   }
-
-  &__columns {
+  .footer-columns {
     display: flex;
     flex: 4 1 400px;
     flex-wrap: wrap;
@@ -25,8 +26,7 @@
     width: 100%;
     justify-content: space-between;
   }
-
-  &__column {
+  .footer-column {
     min-width: 120px;
     h4 {
       font-size: 1rem;

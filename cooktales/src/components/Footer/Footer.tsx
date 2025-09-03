@@ -2,32 +2,32 @@ import React from 'react';
 import './Footer.scss';
 
 const Footer: React.FC = () => (
-  <footer className="footer">
-    <div className="footer__logo">Cooktales</div>
-    <div className="footer__columns">
-      <div className="footer__column">
-        <h4>Column 1</h4>
+  <footer className="footer-glass">
+    <div className="footer-logo">Cooktales</div>
+    <div className="footer-columns">
+      <div className="footer-column">
+        <h4>About</h4>
         <ul>
-          <li>About</li>
           <li>Team</li>
+          <li>Vision</li>
         </ul>
       </div>
-      <div className="footer__column">
-        <h4>Column 2</h4>
+      <div className="footer-column">
+        <h4>Recipes</h4>
         <ul>
-          <li>Recipes</li>
           <li>Categories</li>
+          <li>Popular</li>
         </ul>
       </div>
-      <div className="footer__column">
-        <h4>Column 3</h4>
+      <div className="footer-column">
+        <h4>Support</h4>
         <ul>
           <li>Contact</li>
-          <li>Support</li>
+          <li>FAQ</li>
         </ul>
       </div>
-      <div className="footer__column">
-        <h4>Column 4</h4>
+      <div className="footer-column">
+        <h4>Legal</h4>
         <ul>
           <li>Privacy</li>
           <li>Terms</li>
