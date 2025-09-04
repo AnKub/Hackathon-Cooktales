@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
-import Navbar from './components/Navbar/Navbar';
 import Sidebar from './components/Sidebar/Sidebar';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
@@ -14,9 +13,6 @@ const App: React.FC = () => (
   <Router>
     <div className="app-layout">
       <Header />
-      <div className="mobile-only">
-        <Navbar />
-      </div>
       <div className="main-content">
         <div className="desktop-only">
           <Sidebar />

@@ -13,7 +13,12 @@ const Header: React.FC = () => {
 
   return (
     <header className="header-glass">
-      <h1 className="header-title">Cooktales</h1>
+      <span className="header-logo">Cooktales</span>
+      <nav className="navbar-links">
+        <a href="/">Home</a>
+        <a href="/favorites">Favorites</a>
+        <a href="/ai-assistant">AI Assistant</a>
+      </nav>
       <div className="header-actions">
         <button className="header-theme-btn" onClick={toggleTheme}>
           {theme === 'light' ? '🌗' : '🌞'}
