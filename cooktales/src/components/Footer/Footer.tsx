@@ -10,6 +10,15 @@ const Footer: React.FC = () => (
         <ul>
           <li>Team</li>
           <li>Vision</li>
+          <li>
+            <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </li>
+          <li>
+            <a href="mailto:your@email.com">Email</a>
+          </li>
         </ul>
       </div>
       <div className="footer-column">
@@ -33,6 +42,10 @@ const Footer: React.FC = () => (
           <li>Terms</li>
         </ul>
       </div>
+    </div>
+    <div className="footer-bottom">
+      <span className="footer-author">Author: An</span>
+      <span className="footer-made">Made with Paws</span>
     </div>
   </footer>
 );

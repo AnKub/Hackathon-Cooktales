@@ -1,27 +1,29 @@
 :root {
-  --header-bg: #f8f9fa;
-  --sidebar-bg: #222;
+  --header-bg: #d61800;
+  --sidebar-bg: #d61800;
+  --footer-bg: #7f152e;
+  --card-bg: #edae01;
+  --accent: #e94f08;
+  --accent-hover: #b83806;
+  --bg: #e94f08;
+  --text: #fff;
+  --footer-text: #fff;
   --sidebar-text: #fff;
   --sidebar-link: #fff;
-  --card-bg: #fff;
-  --accent: #0077ff;
-  --accent-hover: #005bb5;
-  --footer-bg: #f8f9fa;
-  --footer-text: #222;
-  --text: #222;
 }
 
 .theme-dark {
-  --header-bg: #222;
-  --sidebar-bg: #111;
-  --sidebar-text: #eee;
-  --sidebar-link: #eee;
-  --card-bg: #222;
-  --accent: #ff9800;
-  --accent-hover: #e65100;
-  --footer-bg: #111;
-  --footer-text: #eee;
-  --text: #eee;
+  --header-bg: #7f152e;
+  --sidebar-bg: #7f152e;
+  --footer-bg: #2d0a13;
+  --card-bg: #b83806;
+  --accent: #edae01;
+  --accent-hover: #e94f08;
+  --bg: #2d0a13;
+  --text: #fff;
+  --footer-text: #fff;
+  --sidebar-text: #fff;
+  --sidebar-link: #fff;
 }
 
 .desktop-only {

@@ -1,8 +1,8 @@
 .header-glass {
   backdrop-filter: blur(12px);
   background: rgba(255,255,255,0.6);
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  border-radius: 24px 24px 18px 18px; // більш округлі верхні кути
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -12,6 +12,8 @@
     font-size: 2rem;
     font-weight: bold;
     color: var(--accent);
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
   .header-actions {
     display: flex;
@@ -22,9 +24,9 @@
       background: rgba(255,255,255,0.7);
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       padding: 0.6rem 1.2rem;
-      font-size: 1rem;
+      font-size: 1.2rem;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.2s, color 0.2s;
       &:hover {
         background: var(--accent);
         color: #fff;
