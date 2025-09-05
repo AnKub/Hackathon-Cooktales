@@ -14,7 +14,7 @@ const images = [
 
 const About: React.FC = () => (
   <div className="about-page">
-    {/* Сюди встав картинку персонажа, наприклад <img src="/images/cookie-monster.png" alt="Cookie Monster" className="about-mascot" /> */}
+    <img src="/images/monster.png" alt="Cookie Monster" className="about-mascot" />
     <div className="about-carousel-wrapper">
       <div className="about-carousel">
         {[...images, ...images].map((src, idx) => (
