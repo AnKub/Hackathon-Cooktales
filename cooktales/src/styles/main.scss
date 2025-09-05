@@ -26,6 +26,11 @@
   --sidebar-link: #fff;
 }
 
+body {
+  background: var(--bg) url('../assets/cookie.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
 .desktop-only {
   display: block;
   @media (max-width: 900px) {

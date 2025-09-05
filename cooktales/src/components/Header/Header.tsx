@@ -18,6 +18,7 @@ const Header: React.FC = () => {
         <a href="/">Home</a>
         <a href="/favorites">Favorites</a>
         <a href="/ai-assistant">AI Assistant</a>
+        <a href="/about">About</a>
       </nav>
       <div className="header-actions">
         <button className="header-theme-btn" onClick={toggleTheme}>
