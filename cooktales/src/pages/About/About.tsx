@@ -2,14 +2,14 @@ import React from 'react';
 import './About.scss';
 
 const images = [
-  '/images/carousel1.jpg',
-  '/images/carousel2.jpg',
-  '/images/carousel3.jpg',
-  '/images/carousel4.jpg',
-  '/images/carousel5.jpg',
-  '/images/carousel6.jpg',
-  '/images/carousel7.jpg',
-  '/images/carousel8.jpg',
+  '/images/1.webp',
+  '/images/2.webp',
+  '/images/3.webp',
+  '/images/4.webp',
+  '/images/5.webp',
+  '/images/6.webp',
+  '/images/7.webp',
+  '/images/8.webp',
 ];
 
 const About: React.FC = () => (
