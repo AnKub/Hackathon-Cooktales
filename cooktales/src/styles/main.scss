@@ -1,29 +1,29 @@
 :root {
-  --header-bg: #d61800;
-  --sidebar-bg: #d61800;
-  --footer-bg: #7f152e;
-  --card-bg: #edae01;
-  --accent: #e94f08;
-  --accent-hover: #b83806;
-  --bg: #e94f08;
-  --text: #fff;
-  --footer-text: #fff;
-  --sidebar-text: #fff;
-  --sidebar-link: #fff;
+  --header-bg: #ffffff;
+  --sidebar-bg: #f5f6fa;
+  --footer-bg: #f5f6fa;
+  --card-bg: #fdfdfd;
+  --accent: #1976d2;
+  --accent-hover: #1565c0;
+  --bg: #f0f2f5;
+  --text: #222;
+  --footer-text: #555;
+  --sidebar-text: #333;
+  --sidebar-link: #1976d2;
 }
 
 .theme-dark {
-  --header-bg: #7f152e;
-  --sidebar-bg: #7f152e;
-  --footer-bg: #2d0a13;
-  --card-bg: #b83806;
-  --accent: #edae01;
-  --accent-hover: #e94f08;
-  --bg: #2d0a13;
-  --text: #fff;
-  --footer-text: #fff;
-  --sidebar-text: #fff;
-  --sidebar-link: #fff;
+  --header-bg: #23272f;
+  --sidebar-bg: #23272f;
+  --footer-bg: #181a20;
+  --card-bg: #23272f;
+  --accent: #90caf9;
+  --accent-hover: #42a5f5;
+  --bg: #181a20;
+  --text: #f5f6fa;
+  --footer-text: #b0b3b8;
+  --sidebar-text: #e0e0e0;
+  --sidebar-link: #90caf9;
 }
 
 body {
@@ -35,11 +35,5 @@ body {
   display: block;
   @media (max-width: 900px) {
     display: none;
-  }
-}
-.mobile-only {
-  display: none;
-  @media (max-width: 900px) {
-    display: block;
   }
 }

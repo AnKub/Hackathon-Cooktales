@@ -1,7 +1,7 @@
 .sidebar {
   position: fixed;
-  top: 1.5rem;
-  left: 1.5rem;
+  top: 6rem;
+  left: 2rem;
   z-index: 100;
   min-width: 56px;
   border-radius: 16px;
@@ -68,7 +68,7 @@
   }
 
   &.open {
-    background: var(--sidebar-bg);
+    // background: var(--sidebar-bg);
     box-shadow: 0 2px 16px rgba(0,0,0,0.10);
     width: 180px;
     nav ul li {
@@ -80,7 +80,7 @@
 @media (max-width: 900px) {
   .sidebar {
     top: 1rem;
-    left: 1rem;
+    left: 2rem;
     width: 56px;
     min-width: 0;
     .sidebar-toggle {
