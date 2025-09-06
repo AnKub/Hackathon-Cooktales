@@ -12,6 +12,10 @@ const links = [
 const Sidebar: React.FC = () => {
   const [open, setOpen] = useState(false);
 
+  const handleLinkClick = () => {
+    setOpen(false);
+  };
+
   return (
     <aside className={`sidebar${open ? ' open' : ''}`}>
       <button
@@ -31,7 +35,7 @@ const Sidebar: React.FC = () => {
               }}
               className={open ? 'sidebar-link-visible' : ''}
             >
-              <Link to={link.to} tabIndex={open ? 0 : -1}>
+              <Link to={link.to} tabIndex={open ? 0 : -1} onClick={handleLinkClick}>
                 {link.label}
               </Link>
             </li>
