@@ -17,7 +17,7 @@ const Header: React.FC = () => {
       <nav className="navbar-links">
         <a href="/">Home</a>
         <a href="/favorites">Favorites</a>
-        <a href="/ai-assistant">AI Assistant</a>
+        <a href="/ai-assistant">AI Assist</a>
         <a href="/about">About</a>
       </nav>
       <div className="header-actions">
