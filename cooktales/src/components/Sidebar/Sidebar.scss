@@ -3,7 +3,8 @@
   top: 6rem;
   left: 2rem;
   z-index: 100;
-  min-width: 56px;
+  width: 56px; // ширина в закритому стані тільки під кнопку
+  min-width: 0;
   border-radius: 16px;
   padding: 0.5rem 0.2rem;
   background: none;
@@ -12,11 +13,12 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  overflow: hidden; // важливо для плавного згортання
 
   .sidebar-toggle {
     backdrop-filter: blur(12px);
-     background: var(--sidebar-bg);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    background: var(--sidebar-bg);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
     color: var(--accent);
     border: none;
     border-radius: 10px;
@@ -25,13 +27,14 @@
     margin-bottom: 0.5rem;
     cursor: pointer;
     transition: background 0.2s;
-    // &:hover {
-    //   background: var(--accent-hover);
-    // }
+    &:hover {
+      background: var(--accent-hover);
+      color: #fff;
+    }
   }
 
   nav {
-    width: 80%;
+    width: 100%;
     ul {
       list-style: none;
       padding: 0;
@@ -56,8 +59,8 @@
           margin-bottom: 0.2rem;
           transition: background 0.2s, color 0.2s, transform 0.2s;
           &:hover {
-            // background: var(--accent);
-
+            background: var(--accent);
+            color: #fff;
             transform: scale(1.06);
           }
         }
@@ -71,11 +74,11 @@
   }
 
   &.open {
-    // background: var(--sidebar-bg);
+    background: var(--sidebar-bg);
     box-shadow: 0 2px 16px rgba(0,0,0,0.10);
     width: 180px;
     nav ul li {
-      // Всі li отримують анімацію через клас .sidebar-link-visible
+      // li отримують анімацію через клас .sidebar-link-visible
     }
   }
 }

@@ -5,7 +5,7 @@ import './Sidebar.scss';
 const links = [
   { to: '/', label: 'Home' },
   { to: '/favorites', label: 'Favorites' },
-  { to: '/ai-assistant', label: 'AI Assistant' },
+  { to: '/ai-assistant', label: 'AI Assist' },
   { to: '/about', label: 'About' },
 ];
 

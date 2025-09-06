@@ -3,8 +3,9 @@ import './Footer.scss';
 
 const Footer: React.FC = () => (
   <footer className="footer-glass">
-    <div className="footer-logo">Cooktales</div>
-    <div className="footer-columns">
+  
+    <div className="footer-columns">  
+      <div className="footer-logo">Cooktales</div>
       <div className="footer-column">
         <h4>About</h4>
         <ul>
