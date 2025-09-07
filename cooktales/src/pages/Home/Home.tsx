@@ -38,7 +38,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="home-page">
-      <h2 className="home-title">Discover Recipes</h2>
+      <h2 className="home-title">Mmm...</h2>
       {loading ? (
         <div className="home-loading">Loading...</div>
       ) : (

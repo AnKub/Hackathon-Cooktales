@@ -24,7 +24,7 @@ const Header: React.FC = () => {
         <button className="header-theme-btn" onClick={toggleTheme}>
           {theme === 'light' ? '🌗' : '🌞'}
         </button>
-        <button className="header-auth-btn">Log In / Log Out</button>
+        <button className="header-auth-btn">In / Out</button>
       </div>
     </header>
   );

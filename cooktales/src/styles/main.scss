@@ -3,8 +3,8 @@
   --sidebar-bg: #f5f6fa;
   --footer-bg: #f5f6fa;
   --card-bg: #fdfdfd;
-  --accent: #1976d2;
-  --accent-hover: #1565c0;
+  --accent: #90caf9;
+  --accent-hover: #23272f;
   --bg: #f0f2f5;
   --text: #222;
   --footer-text: #555;
@@ -30,6 +30,7 @@ body {
   background: var(--bg) url('../assets/cookie.png') no-repeat center center fixed;
   background-size: cover;
 }
+
 
 .desktop-only {
   display: block;

@@ -16,14 +16,14 @@
   border: 2px solid transparent;
 
   &:hover, &:focus-visible {
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    box-shadow: 0 8px 32px 15px rgba(0,0,0,0.18);
     border: 2px solid var(--accent);
-    // Без збільшення!
+    
   }
 
   .recipe-card__image-wrapper {
-    width: 90%;
-    margin: 0 auto 0.7rem auto;
+    width: 98%;
+    margin: 0 auto 0.4rem auto;
     border-radius: 14px;
     overflow: hidden;
     background: #fff;
@@ -51,6 +51,7 @@
     font-size: 1rem;
     color: var(--text);
     text-align: center;
+    letter-spacing: 1px;
     margin-bottom: 1.2rem;
     min-height: 2.5em;
     opacity: 0.85;
@@ -72,7 +73,6 @@
   }
 }
 
-// Модальне вікно залиш без змін
 .recipe-modal-overlay {
   position: fixed;
   z-index: 2000;
