@@ -1,15 +1,15 @@
 :root {
-  --header-bg: #ffffff;
-  --sidebar-bg: #f5f6fa;
-  --footer-bg: #f5f6fa;
-  --card-bg: #fdfdfd;
-  --accent: #90caf9;
-  --accent-hover: #23272f;
-  --bg: #f0f2f5;
-  --text: #222;
-  --footer-text: #555;
-  --sidebar-text: #333;
-  --sidebar-link: #1976d2;
+  --header-bg: #fff6f0;
+  --sidebar-bg: #ffe9d6;
+  --footer-bg: #ffe9d6;
+  --card-bg: #fff3e0;
+  --accent: #ffad60;
+  --accent-hover: #ff914d;
+  --bg: #fff8f3;
+  --text: #6d4c1c;
+  --footer-text: #b88c5a;
+  --sidebar-text: #a67c52;
+  --sidebar-link: #ff914d;
 }
 
 .theme-dark {
@@ -30,7 +30,17 @@ body {
   background: var(--bg) url('../assets/cookie.png') no-repeat center center fixed;
   background-size: cover;
 }
+.app-layout, body, #root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
+.main-content {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
 
 .desktop-only {
   display: block;

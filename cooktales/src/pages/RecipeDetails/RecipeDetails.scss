@@ -6,6 +6,7 @@
   justify-content: flex-start;
   padding: 2rem 1rem 3rem 1rem;
   background: transparent;
+  min-height: 100vh;
 
   .recipe-details__card {
     background: var(--card-bg);

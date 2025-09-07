@@ -8,17 +8,18 @@ const Footer: React.FC = () => (
       <div className="footer-logo">Cooktales</div>
       <div className="footer-column">
         <h4>About</h4>
-        <ul>
-          <li>Team</li>
-          <li>Vision</li>
+        <ul>         
+         <li>
+          <a href="/about" className="footer-link">Story</a>
+         </li>
           <li>
-            <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://github.com/AnKub" target="_blank" rel="noopener noreferrer">GitHub</a>
           </li>
           <li>
-            <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="www.linkedin.com/in/ankub88" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           </li>
           <li>
-            <a href="mailto:your@email.com">Email</a>
+            <a href="ankub3088@email.com">Email</a>
           </li>
         </ul>
       </div>

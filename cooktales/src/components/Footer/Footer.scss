@@ -9,11 +9,6 @@
   padding: 1.2rem 1rem 0.7rem 1rem;
   margin: 0.5rem 1rem 0.5rem 1rem;
   transition: all 0.3s;
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
 
   .footer-columns {
     display: flex;
@@ -81,7 +76,13 @@
       }
     }
   }
-
+.footer-link {
+  color: var(--accent);
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
   .footer-bottom {
     width: 100%;
     display: flex;
@@ -90,6 +91,9 @@
     margin-top: 1.2rem;
     font-size: 0.95rem;
     color: #bbb;
+      justify-content: center;
+      text-align: center;
+      gap: 0.5rem;
     .footer-author {
       font-weight: 500;
     }

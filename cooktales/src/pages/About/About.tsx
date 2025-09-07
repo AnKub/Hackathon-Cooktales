@@ -34,7 +34,9 @@ const About: React.FC = () => (
           <i>"Why not create a place where everyone can find warmth, family, and delicious dinners, even if their only friend is a rubber duck?"</i><br /><br />
           Thus, Cooktales was born! A magical app for those who crave cozy evenings, hearty meals, and maybe a crumb or two on the keyboard. <br />
           Whether you’re a master chef or a cereal enthusiast, here you’ll find recipes, AI-powered suggestions, and a sprinkle of love in every pixel.<br /><br />
-          So grab your spatula, invite your imaginary friends, and let’s cook up some memories together! 🍪
+          So grab your spatula, invite your imaginary friends, and let’s cook up some memories together! 🍪<br /><br />
+          <b>P.S.</b> By the way, this project was crafted by a junior developer who is currently looking for a job. If you’re searching for someone who can code, laugh at their own bugs, and bring a pinch of humor to your team—look no further!<br />
+          <i>Even Cookie Monster recommends hiring me. He says I’m almost as good at coding as I am at eating cookies!</i> 😄
         </p>
       </div>
     </div>
