@@ -27,13 +27,13 @@ const About: React.FC = () => (
     <div className="about-story-frame">
       <div className="about-story">
         <h2>How Cooktales Was Born</h2>
-        <p>
+        {/* <p>
           Once upon a time, in a land of lonely kitchens and empty fridges, a wise Cookie Monster from Sesame Street whispered an idea: <br />
           <i>"Why not create a place where everyone can find warmth, family, and delicious dinners, even if their only friend is a rubber duck?"</i><br /><br />
           Thus, Cooktales was born! A magical app for those who crave cozy evenings, hearty meals, and maybe a crumb or two on the keyboard. <br />
           Whether you’re a master chef or a cereal enthusiast, here you’ll find recipes, AI-powered suggestions, and a sprinkle of love in every pixel.<br /><br />
           So grab your spatula, invite your imaginary friends, and let’s cook up some memories together! 🍪
-        </p>
+        </p> */}
       </div>
     </div>
   </div>
