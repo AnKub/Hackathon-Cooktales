@@ -1,41 +1,158 @@
 .recipe-card {
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  overflow: hidden;
+  position: relative;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+  overflow: visible;
   display: flex;
   flex-direction: column;
+  align-items: center;
   background: var(--card-bg);
+  padding: 1.2rem 1rem 1.5rem 1rem;
+  min-width: 260px;
+  max-width: 340px;
+  margin: 1rem;
+  cursor: pointer;
+  transition: box-shadow 0.18s, border 0.18s;
+  border: 2px solid transparent;
 
-  &__image {
+  &:hover, &:focus-visible {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    border: 2px solid var(--accent);
+    // Без збільшення!
+  }
+
+  .recipe-card__image-wrapper {
+    width: 90%;
+    margin: 0 auto 0.7rem auto;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .recipe-card__image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: transform 0.2s;
+  }
+  .recipe-card__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0.5rem 0 0.3rem 0;
+    text-align: center;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+  .recipe-card__desc {
+    font-size: 1rem;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 1.2rem;
+    min-height: 2.5em;
+    opacity: 0.85;
+  }
+  .recipe-card__favorite {
+    position: absolute;
+    right: 1.2rem;
+    bottom: 1.2rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    z-index: 2;
+    &:hover {
+      color: #e53935;
+      transform: scale(1.15);
+    }
+  }
+}
+
+// Модальне вікно залиш без змін
+.recipe-modal-overlay {
+  position: fixed;
+  z-index: 2000;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.recipe-modal {
+  background: var(--card-bg);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  min-width: 320px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  .recipe-modal__image-wrapper {
+    width: 90%;
+    margin-bottom: 1rem;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .recipe-modal__image {
     width: 100%;
     height: 180px;
     object-fit: cover;
+    border-radius: 12px;
   }
-
-  &__content {
-    padding: 1rem;
+  .recipe-modal__title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0.5rem 0 0.3rem 0;
+    text-align: center;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+  .recipe-modal__desc {
+    font-size: 1.05rem;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 1.2rem;
+    opacity: 0.95;
+    white-space: pre-line;
+  }
+  .recipe-modal__actions {
     display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-
-  &__title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-
-  &__favorite {
-    margin-top: auto;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    border: none;
-    background: var(--accent);
-    color: #fff;
-    cursor: pointer;
-    transition: background 0.2s;
-    &:hover {
-      background: var(--accent-hover);
+    gap: 1.2rem;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+    .recipe-modal__close,
+    .recipe-modal__next {
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      &:hover {
+        background: var(--accent-hover);
+        transform: scale(1.08);
+      }
     }
   }
 }

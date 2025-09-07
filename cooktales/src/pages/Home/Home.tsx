@@ -6,11 +6,13 @@ type Recipe = {
   idMeal: string;
   strMeal: string;
   strMealThumb: string;
+  strInstructions: string;
 };
 
 const Home: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
+  const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -28,6 +30,12 @@ const Home: React.FC = () => {
     fetchRecipes();
   }, []);
 
+  const toggleFavorite = (id: string) => {
+    setFavorites(prev =>
+      prev.includes(id) ? prev.filter(favId => favId !== id) : [...prev, id]
+    );
+  };
+
   return (
     <div className="home-page">
       <h2 className="home-title">Discover Recipes</h2>
@@ -36,11 +44,15 @@ const Home: React.FC = () => {
       ) : (
         <div className="home-grid">
           {recipes.map(recipe => (
-            <RecipeCard
+          <RecipeCard
               key={recipe.idMeal}
+              id={recipe.idMeal} 
               title={recipe.strMeal}
               image={recipe.strMealThumb}
-              onFavorite={() => {}}
+              shortDescription={recipe.strInstructions ? recipe.strInstructions.slice(0, 80) + '...' : 'No description'}
+              fullRecipe={recipe.strInstructions || ''}
+              isFavorite={favorites.includes(recipe.idMeal)}
+              onFavorite={() => toggleFavorite(recipe.idMeal)}
             />
           ))}
         </div>
