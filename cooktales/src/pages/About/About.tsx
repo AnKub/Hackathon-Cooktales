@@ -14,7 +14,6 @@ const images = [
 
 const About: React.FC = () => (
   <div className="about-page">
-    <img src="/images/monster.png" alt="Cookie Monster" className="about-mascot" />
     <div className="about-carousel-wrapper">
       <div className="about-carousel">
         {[...images, ...images].map((src, idx) => (
@@ -23,6 +22,9 @@ const About: React.FC = () => (
           </div>
         ))}
       </div>
+    </div>
+    <div className="about-mascot-wrapper">
+      <img src="/images/monster.png" alt="Cookie Monster" className="about-mascot" />
     </div>
     <div className="about-story-frame">
       <div className="about-story">

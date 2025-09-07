@@ -18,16 +18,20 @@ const Favorites: React.FC = () => {
 
   return (
     <div className="favorites-page">
-      <h2 className="favorites-title">Your Favorite Recipes</h2>
+      <h2 className="favorites-title">Favorites</h2>
       {favorites.length === 0 ? (
-        <div className="favorites-empty">You haven't added any favorites yet.</div>
+        <div className="favorites-empty">Any favorites yet.</div>
       ) : (
         <div className="favorites-grid">
           {favorites.map(recipe => (
             <RecipeCard
               key={recipe.id}
+              id={recipe.id}
               title={recipe.title}
               image={recipe.image}
+              shortDescription={recipe.shortDescription}
+              fullRecipe={recipe.fullRecipe}
+              isFavorite={true}
               onFavorite={() => {}}
             />
           ))}
