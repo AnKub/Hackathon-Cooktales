@@ -1,50 +1,50 @@
-:root {
-  --header-bg: #fff6f0;
-  --sidebar-bg: #ffe9d6;
-  --footer-bg: #ffe9d6;
-  --card-bg: #fff3e0;
-  --accent: #ffad60;
-  --accent-hover: #ff914d;
-  --bg: #fff8f3;
-  --text: #6d4c1c;
-  --footer-text: #b88c5a;
-  --sidebar-text: #a67c52;
-  --sidebar-link: #ff914d;
-}
+// :root {
+//   --header-bg: #fff6f0;
+//   --sidebar-bg: #ffe9d6;
+//   --footer-bg: #ffe9d6;
+//   --card-bg: #fff3e0;
+//   --accent: #ffad60;
+//   --accent-hover: #ff914d;
+//   --bg: #fff8f3;
+//   --text: #6d4c1c;
+//   --footer-text: #b88c5a;
+//   --sidebar-text: #a67c52;
+//   --sidebar-link: #ff914d;
+// }
 
-.theme-dark {
-  --header-bg: #23272f;
-  --sidebar-bg: #23272f;
-  --footer-bg: #181a20;
-  --card-bg: #23272f;
-  --accent: #90caf9;
-  --accent-hover: #42a5f5;
-  --bg: #181a20;
-  --text: #f5f6fa;
-  --footer-text: #b0b3b8;
-  --sidebar-text: #e0e0e0;
-  --sidebar-link: #90caf9;
-}
+// .theme-dark {
+//   --header-bg: #23272f;
+//   --sidebar-bg: #23272f;
+//   --footer-bg: #181a20;
+//   --card-bg: #23272f;
+//   --accent: #90caf9;
+//   --accent-hover: #42a5f5;
+//   --bg: #181a20;
+//   --text: #f5f6fa;
+//   --footer-text: #b0b3b8;
+//   --sidebar-text: #e0e0e0;
+//   --sidebar-link: #90caf9;
+// }
 
-body {
-  background: var(--bg) url('../assets/cookie.png') no-repeat center center fixed;
-  background-size: cover;
-}
-.app-layout, body, #root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+// body {
+//   background: var(--bg) url('../assets/cookie.png') no-repeat center center fixed;
+//   background-size: cover;
+// }
+// .app-layout, body, #root {
+//   min-height: 100vh;
+//   display: flex;
+//   flex-direction: column;
+// }
 
-.main-content {
-  flex: 1 0 auto;
-  display: flex;
-  flex-direction: column;
-}
+// .main-content {
+//   flex: 1 0 auto;
+//   display: flex;
+//   flex-direction: column;
+// }
 
-.desktop-only {
-  display: block;
-  @media (max-width: 900px) {
-    display: none;
-  }
-}
+// .desktop-only {
+//   display: block;
+//   @media (max-width: 900px) {
+//     display: none;
+//   }
+// }
