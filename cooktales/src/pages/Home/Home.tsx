@@ -9,10 +9,13 @@ type Recipe = {
   strInstructions: string;
 };
 
+const RECIPES_PER_PAGE = 12;
+
 const Home: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -36,26 +39,48 @@ const Home: React.FC = () => {
     );
   };
 
+  // Пагінація
+  const totalPages = Math.ceil(recipes.length / RECIPES_PER_PAGE);
+  const paginatedRecipes = recipes.slice(
+    (page - 1) * RECIPES_PER_PAGE,
+    page * RECIPES_PER_PAGE
+  );
+
   return (
     <div className="home-page">
       <h2 className="home-title">Mmm...</h2>
       {loading ? (
         <div className="home-loading">Loading...</div>
       ) : (
-        <div className="home-grid">
-          {recipes.map(recipe => (
-          <RecipeCard
-              key={recipe.idMeal}
-              id={recipe.idMeal} 
-              title={recipe.strMeal}
-              image={recipe.strMealThumb}
-              shortDescription={recipe.strInstructions ? recipe.strInstructions.slice(0, 80) + '...' : 'No description'}
-              fullRecipe={recipe.strInstructions || ''}
-              isFavorite={favorites.includes(recipe.idMeal)}
-              onFavorite={() => toggleFavorite(recipe.idMeal)}
-            />
-          ))}
-        </div>
+        <>
+          <div className="home-grid">
+            {paginatedRecipes.map(recipe => (
+              <RecipeCard
+                key={recipe.idMeal}
+                id={recipe.idMeal}
+                title={recipe.strMeal}
+                image={recipe.strMealThumb}
+                shortDescription={recipe.strInstructions ? recipe.strInstructions.slice(0, 80) + '...' : 'No description'}
+                fullRecipe={recipe.strInstructions || ''}
+                isFavorite={favorites.includes(recipe.idMeal)}
+                onFavorite={() => toggleFavorite(recipe.idMeal)}
+              />
+            ))}
+          </div>
+          {/* Пагінація */}
+          <div className="home-pagination">
+            {[...Array(Math.min(3, totalPages)).keys()].map(i => (
+              <button
+                key={i + 1}
+                className={page === i + 1 ? 'active' : ''}
+                onClick={() => setPage(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+            {totalPages > 3 && <span>...</span>}
+          </div>
+        </>
       )}
     </div>
   );
