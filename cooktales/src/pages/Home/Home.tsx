@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
+import SearchBar from '../../components/SearchBar/SearchBar';
 import './Home.scss';
 
 type Recipe = {
@@ -16,6 +17,7 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -39,9 +41,14 @@ const Home: React.FC = () => {
     );
   };
 
+  // Фільтрація по пошуку
+  const filteredRecipes = recipes.filter(recipe =>
+    recipe.strMeal.toLowerCase().includes(search.toLowerCase())
+  );
+
   // Пагінація
-  const totalPages = Math.ceil(recipes.length / RECIPES_PER_PAGE);
-  const paginatedRecipes = recipes.slice(
+  const totalPages = Math.ceil(filteredRecipes.length / RECIPES_PER_PAGE);
+  const paginatedRecipes = filteredRecipes.slice(
     (page - 1) * RECIPES_PER_PAGE,
     page * RECIPES_PER_PAGE
   );
@@ -49,6 +56,7 @@ const Home: React.FC = () => {
   return (
     <div className="home-page">
       <h2 className="home-title">Mmm...</h2>
+      <SearchBar value={search} onChange={setSearch} />
       {loading ? (
         <div className="home-loading">Loading...</div>
       ) : (
