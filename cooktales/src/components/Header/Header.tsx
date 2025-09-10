@@ -23,9 +23,9 @@ const Header: React.FC = () => {
       <div className="header-actions">
         <button className="header-theme-btn" onClick={toggleTheme}>
   {theme === 'light' ? (
-    <img src="/images/yellow.png" alt="Light theme" className="theme-icon" />
+    <img src="/images/dark.png" alt="Light theme" className="theme-icon" />
   ) : (
-    <img src="/images/dark.png" alt="Dark theme" className="theme-icon" />
+    <img src="/images/yellow.png" alt="Dark theme" className="theme-icon" />
   )}
 </button>
         <button className="header-auth-btn">In / Out</button>
