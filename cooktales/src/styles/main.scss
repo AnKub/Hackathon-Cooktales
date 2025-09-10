@@ -3,10 +3,10 @@
   --sidebar-bg: #ffe9d6;
   --footer-bg: #ffe9d6;
   --card-bg: #fff3e0;
-  --accent: #ffad60;
+  --accent: #181a20;
   --accent-hover: #ff914d;
   --bg: #fff8f3;
-  --text: #6d4c1c;
+  --text: #181a20;
   --footer-text: #b88c5a;
   --sidebar-text: #a67c52;
   --sidebar-link: #ff914d;
@@ -17,7 +17,7 @@
   --sidebar-bg: #23272f;
   --footer-bg: #181a20;
   --card-bg: #23272f;
-  --accent: #90caf9;
+  --accent: #ffad60;
   --accent-hover: #42a5f5;
   --bg: #181a20;
   --text: #f5f6fa;
@@ -27,9 +27,25 @@
 }
 
 body {
-  background: var(--bg) url('../assets/cookie.png') no-repeat center center fixed;
-  background-size: cover;
+  position: relative;
+  min-height: 100vh;
+  background: var(--bg);
+  overflow-x: hidden;
 }
+
+body::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  background: url('../assets/cookie.png') no-repeat center center fixed;
+  background-size: cover;
+  filter: blur(16px) brightness(0.95);
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
 .app-layout, body, #root {
   min-height: 100vh;
   display: flex;
