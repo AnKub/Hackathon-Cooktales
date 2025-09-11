@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Auth from './pages/Auth/Auth';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import Footer from './components/Footer/Footer';
@@ -25,6 +26,7 @@ const App: React.FC = () => (
             <Route path="/ai-assistant" element={<AIRecipeAssistant />} />
             <Route path="/recipe/:id" element={<RecipeDetails />} />
             <Route path="/About" element={<About />} />
+              <Route path="/auth" element={<Auth />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
