@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg);
+  // background: var(--bg);
 
   .auth-loader {
     display: flex;
@@ -81,7 +81,7 @@
     opacity: 0.8;
     transition: color 0.2s;
     &:hover {
-      color: var(--accent-hover, #ff914d);
+      color: var(--footer-text, #ff914d);
     }
   }
 }
