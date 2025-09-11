@@ -76,8 +76,8 @@ const Home: React.FC = () => {
             ))}
           </div>
           {/* Пагінація */}
-          <div className="home-pagination">
-            {[...Array(Math.min(3, totalPages)).keys()].map(i => (
+                <div className="home-pagination">
+            {[...Array(totalPages).keys()].map(i => (
               <button
                 key={i + 1}
                 className={page === i + 1 ? 'active' : ''}
@@ -86,7 +86,6 @@ const Home: React.FC = () => {
                 {i + 1}
               </button>
             ))}
-            {totalPages > 3 && <span>...</span>}
           </div>
         </>
       )}
