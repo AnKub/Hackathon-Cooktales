@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Header.scss';
 
 const Header: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const navigate = useNavigate();
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -22,13 +24,13 @@ const Header: React.FC = () => {
       </nav>
       <div className="header-actions">
         <button className="header-theme-btn" onClick={toggleTheme}>
-  {theme === 'light' ? (
-    <img src="/images/dark.png" alt="Light theme" className="theme-icon" />
-  ) : (
-    <img src="/images/yellow.png" alt="Dark theme" className="theme-icon" />
-  )}
-</button>
-        <button className="header-auth-btn">In / Out</button>
+          {theme === 'light' ? (
+            <img src="/images/dark.png" alt="Light theme" className="theme-icon" />
+          ) : (
+            <img src="/images/yellow.png" alt="Dark theme" className="theme-icon" />
+          )}
+        </button>
+        <button className="header-auth-btn" onClick={() => navigate('/auth')}>In / Out</button>
       </div>
     </header>
   );
