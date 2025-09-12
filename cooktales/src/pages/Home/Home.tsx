@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import { addFavorite, removeFavorite, getFavorites} from '../../api/favorites';
+import type { FavoriteRecipe } from '../../api/favorites';
 import './Home.scss';
 
 type Recipe = {
@@ -35,18 +37,38 @@ const Home: React.FC = () => {
     fetchRecipes();
   }, []);
 
-  const toggleFavorite = (id: string) => {
-    setFavorites(prev =>
-      prev.includes(id) ? prev.filter(favId => favId !== id) : [...prev, id]
-    );
+  useEffect(() => {
+    const fetchFavoritesIds = async () => {
+      try {
+        const favs = await getFavorites();
+        setFavorites(favs.map(f => f.id));
+      } catch (e) {
+        setFavorites([]);
+      }
+    };
+    fetchFavoritesIds();
+  }, []);
+
+  const handleFavorite = async (recipe: Recipe) => {
+    if (favorites.includes(recipe.idMeal)) {
+      await removeFavorite(recipe.idMeal);
+      setFavorites(favorites.filter(id => id !== recipe.idMeal));
+    } else {
+      await addFavorite({
+        id: recipe.idMeal,
+        title: recipe.strMeal,
+        image: recipe.strMealThumb,
+        shortDescription: recipe.strInstructions ? recipe.strInstructions.slice(0, 80) + '...' : 'No description',
+        fullRecipe: recipe.strInstructions || '',
+      });
+      setFavorites([...favorites, recipe.idMeal]);
+    }
   };
 
-  // Фільтрація по пошуку
   const filteredRecipes = recipes.filter(recipe =>
     recipe.strMeal.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Пагінація
   const totalPages = Math.ceil(filteredRecipes.length / RECIPES_PER_PAGE);
   const paginatedRecipes = filteredRecipes.slice(
     (page - 1) * RECIPES_PER_PAGE,
@@ -71,12 +93,11 @@ const Home: React.FC = () => {
                 shortDescription={recipe.strInstructions ? recipe.strInstructions.slice(0, 80) + '...' : 'No description'}
                 fullRecipe={recipe.strInstructions || ''}
                 isFavorite={favorites.includes(recipe.idMeal)}
-                onFavorite={() => toggleFavorite(recipe.idMeal)}
+                onFavorite={() => handleFavorite(recipe)}
               />
             ))}
           </div>
-          {/* Пагінація */}
-                <div className="home-pagination">
+          <div className="home-pagination">
             {[...Array(totalPages).keys()].map(i => (
               <button
                 key={i + 1}

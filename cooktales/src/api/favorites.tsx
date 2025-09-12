@@ -1,8 +1,8 @@
 import { databases, account } from '../appwrite';
 import { ID, Query } from 'appwrite';
 
-const databaseId = '68c2f0a00000b8313818'; // заміни на свій databaseId з Appwrite (ID, не назва!)
-const collectionId = 'favorites';  // заміни на свій collectionId з Appwrite (ID, не назва!)
+const databaseId = '68c2f0a00000b8313818';
+const collectionId = 'favorites'; 
 
 export type FavoriteRecipe = {
   id: string;
@@ -15,6 +15,7 @@ export type FavoriteRecipe = {
 export async function getFavorites(): Promise<FavoriteRecipe[]> {
   const user = await account.get();
   const userId = user.$id;
+  console.log('getFavorites userId:', userId);
   const res = await databases.listDocuments(databaseId, collectionId, [
     Query.equal('userId', userId)
   ]);
@@ -30,6 +31,7 @@ export async function getFavorites(): Promise<FavoriteRecipe[]> {
 export async function addFavorite(recipe: FavoriteRecipe) {
   const user = await account.get();
   const userId = user.$id;
+  console.log('addFavorite userId:', userId);
   await databases.createDocument(databaseId, collectionId, ID.unique(), {
     userId,
     recipeId: recipe.id,
@@ -43,6 +45,7 @@ export async function addFavorite(recipe: FavoriteRecipe) {
 export async function removeFavorite(recipeId: string) {
   const user = await account.get();
   const userId = user.$id;
+  console.log('removeFavorite userId:', userId);
   const res = await databases.listDocuments(databaseId, collectionId, [
     Query.equal('userId', userId),
     Query.equal('recipeId', recipeId)
