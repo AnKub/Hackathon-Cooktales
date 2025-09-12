@@ -22,18 +22,25 @@ const AIRecipeAssistant: React.FC = () => {
     setIngredients(ingredients.filter(i => i !== ing));
   };
 
-  const handleSuggest = async () => {
-    setLoading(true);
+const handleSuggest = async () => {
+  setLoading(true);
+  setRecipes([]);
+  try {
+    const res = await fetch('http://localhost:3001/recipes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ingredients,
+        mealType
+      })
+    });
+    const data = await res.json();
+    setRecipes(data);
+  } catch (e) {
     setRecipes([]);
-    // Тут буде запит до AI 
-    setTimeout(() => {
-      setRecipes([
-        { name: 'Borscht', country: 'Ukraine', flag: '🇺🇦', description: 'Traditional beet soup.' },
-        { name: 'Paella', country: 'Spain', flag: '🇪🇸', description: 'Rice dish with seafood.' }
-      ]);
-      setLoading(false);
-    }, 2000);
-  };
+  }
+  setLoading(false);
+};
 
   return (
     <div className="ai-assistant-page">
@@ -92,7 +99,7 @@ const AIRecipeAssistant: React.FC = () => {
             <button className="ai-modal-close" onClick={() => setSelectedRecipe(null)}>×</button>
             <h3>{selectedRecipe.name} {selectedRecipe.flag}</h3>
             <p>{selectedRecipe.description}</p>
-            {/* Тут додати інгредієнти, кроки, кнопку "Add to Favorites" */}
+           
             <button className="ai-favorite-btn">Add to Favorites ⭐</button>
           </div>
         </div>

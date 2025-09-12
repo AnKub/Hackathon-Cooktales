@@ -1,95 +1,82 @@
-# 🍲 Cooktales
+# Cooktales
 
-**Cooktales** is a modern recipe library app that empowers users to discover, save, and explore their favorite dishes from around the world.  
-Built with **React, TypeScript, SCSS, and Vite**, it features a stylish, responsive interface and a smooth user experience.
+## Project Description
 
----
+**Cooktales** is a modern web app for searching, saving, and generating recipes — designed especially for people who often cook for themselves, and for those who live alone. The idea is to help anyone prepare something tasty, even with a limited set of ingredients, when there’s no one around (yet!) to cook for them.
 
-## 🚀 Features
+## Features
 
-- **Browse Global Recipes:**  
-  Search and explore recipes from various world cuisines.
+- **Recipe search** by dish name.
+- **Sorting and pagination** for easy browsing.
+- **Save your favorite recipes** for quick access.
+- **AI Recipe Assistant** — powered by OpenAI: enter your ingredients, choose meal type (breakfast, lunch, dinner), and get unique recipes you can actually cook with what you have.
+- **User authentication** via Appwrite (registration, login, favorites protection).
+- **Responsive design** — works great on desktop and mobile.
+- **Modal windows** for full recipe view and adding to favorites.
 
-- **Personal Favorites List:**  
-  Create and manage your own list of favorite recipes for quick access.
+## Tech Stack
 
-- **Recipe Details:**  
-  View detailed information, ingredients, instructions, and images for each dish.
+- **React** (TypeScript)
+- **Appwrite** (authentication, favorites)
+- **OpenAI API** (AI recipe generation via custom backend proxy)
+- **Node.js + Express** (AI backend proxy)
+- **Vercel** (frontend deployment)
+- **SCSS** (styling, variables, responsive)
+- **TheMealDB API** (basic recipes)
 
-- **AI-powered Recommendations:**  
-  Get smart suggestions on what you can cook based on the ingredients you have at home.
+## Project Structure
 
-- **Sidebar & Navbar:**  
-  Easy navigation throughout the app.
+```
+cooktales/
+│
+├─ cooktales/                # Frontend (React)
+│    ├─ src/
+│    └─ ...
+│
+├─ ai-backend/               # AI backend proxy (Node.js)
+│    ├─ index.js
+│    ├─ package.json
+│    └─ .env
+│
+├─ README.md
+└─ ...
+```
 
-- **Theme Switcher:**  
-  Toggle between light and dark modes for comfortable viewing.
+## How it works
 
-- **Footer:**  
-  Informational block with logo and useful links.
+1. **Search** — enter a dish name, get recipes from TheMealDB.
+2. **AI generation** — enter your ingredients, pick a meal type, click "Suggest Recipes" and get unique AI-powered recipes.
+3. **Favorites** — save your favorite recipes for later.
+4. **Authentication** — register to keep your favorites safe.
 
-- **404 Page:**  
-  Stylish page for non-existent routes.
+## Note
 
----
+- I joined the hackathon a bit late, so not everything is perfectly polished, but the core features are working!
+- AI generation is done via a custom backend proxy for OpenAI API key safety.
+- Appwrite is used for secure and easy authentication.
 
-## 💡 Concept
+## Run locally
 
-Cooktales is more than just a recipe catalog.  
-It’s your personal culinary assistant, helping you:
+### Frontend
 
-- Discover new dishes and world cuisines.
-- Save and organize your favorite recipes.
-- Get AI-powered cooking ideas based on your pantry.
-- Enjoy a beautiful, adaptive interface on any device.
+```sh
+cd cooktales/cooktales
+npm install
+npm start
+```
 
----
+### AI Backend
 
-## 🎨 Technologies
+```sh
+cd ai-backend
+npm install
+node index.js
+```
 
-- **React**
-- **TypeScript**
-- **SCSS**
-- **Vite**
-- **Responsive Design**
-- **AI Integration (planned)**
+## Author
 
----
-
-## 📱 Responsive
-
-Cooktales looks great on any device — from mobile phones to large monitors.
-
----
-
-## 🛠️ Getting Started
-
-1. Clone the repository:
-   ```
-   git clone https://github.com/AnKub/Hackathon-Cooktales.git
-   ```
-2. Install dependencies:
-   ```
-   npm install
-   ```
-3. Start the app:
-   ```
-   npm run dev
-   ```
-
----
-
-## 📷 Preview
-
-![Cooktales Preview](https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg)
+[An Kub]
 
 ---
 
-## 📝 Author
-
-**AnKub**  
-[GitHub](https://github.com/AnKub)
-
----
-
-> **Cooktales — your personal recipe library and smart cooking assistant!**
+**Cooktales — your personal kitchen sidekick!**
