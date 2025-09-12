@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import { addFavorite, removeFavorite, getFavorites} from '../../api/favorites';
+import { addFavorite, removeFavorite, getFavorites } from '../../api/favorites';
 import type { FavoriteRecipe } from '../../api/favorites';
 import './Home.scss';
 
@@ -78,9 +78,17 @@ const Home: React.FC = () => {
   return (
     <div className="home-page">
       <h2 className="home-title">Mmm...</h2>
-      <SearchBar value={search} onChange={setSearch} />
+      <div className="home-searchbar-wrapper">
+        <SearchBar value={search} onChange={setSearch} />
+      </div>
       {loading ? (
-        <div className="home-loading">Loading...</div>
+        <div className="home-loading">
+          <img
+            src="/images/yellow.png"
+            alt="Loading..."
+            className="home-loading-img"
+          />
+        </div>
       ) : (
         <>
           <div className="home-grid">
