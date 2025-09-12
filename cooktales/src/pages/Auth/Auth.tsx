@@ -30,6 +30,7 @@ const Auth: React.FC = () => {
       window.location.href = '/';
     } catch (err: any) {
       setError(err.message || "Registration error");
+       console.error('Appwrite error:', err);
     }
   };
 

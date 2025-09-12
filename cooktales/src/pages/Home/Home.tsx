@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { addFavorite, removeFavorite, getFavorites } from '../../api/favorites';
-import type { FavoriteRecipe } from '../../api/favorites';
 import './Home.scss';
 
 type Recipe = {
