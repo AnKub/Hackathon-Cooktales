@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { account } from '../../appwrite'; 
+import { account } from '../../appwrite';
 import './Auth.scss';
 
 const Auth: React.FC = () => {
@@ -9,13 +9,14 @@ const Auth: React.FC = () => {
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 4000);
     return () => clearTimeout(timer);
   }, []);
 
- 
   const register = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -25,20 +26,19 @@ const Auth: React.FC = () => {
     }
     try {
       await account.create('unique()', email, password);
-     await account.createSession(email, password);
+      await account.createSession(email, password);
       window.location.href = '/';
     } catch (err: any) {
       setError(err.message || "Registration error");
     }
   };
 
-  // Логін
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     try {
       await account.createSession(email, password);
-      window.location.href = '/'; 
+      window.location.href = '/';
     } catch (err: any) {
       setError(err.message || "Login error");
     }
@@ -61,21 +61,41 @@ const Auth: React.FC = () => {
               value={email}
               onChange={e => setEmail(e.target.value)}
             />
-            <input
-              type="password"
-              placeholder="Password"
-              required
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-            {!isLogin && (
+            <div className="auth-password-field">
               <input
-                type="password"
-                placeholder="Repeat password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
                 required
-                value={repeatPassword}
-                onChange={e => setRepeatPassword(e.target.value)}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
               />
+              <button
+                type="button"
+                className="auth-show-password"
+                onClick={() => setShowPassword(v => !v)}
+                tabIndex={-1}
+              >
+                {showPassword ? '🙈' : '👁️'}
+              </button>
+            </div>
+            {!isLogin && (
+              <div className="auth-password-field">
+                <input
+                  type={showRepeatPassword ? 'text' : 'password'}
+                  placeholder="Repeat password"
+                  required
+                  value={repeatPassword}
+                  onChange={e => setRepeatPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="auth-show-password"
+                  onClick={() => setShowRepeatPassword(v => !v)}
+                  tabIndex={-1}
+                >
+                  {showRepeatPassword ? '🙈' : '👁️'}
+                </button>
+              </div>
             )}
             <button type="submit">{isLogin ? 'Login' : 'Register'}</button>
             {error && <div className="auth-error">{error}</div>}
