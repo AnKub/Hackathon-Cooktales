@@ -13,7 +13,7 @@ const Auth: React.FC = () => {
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 4000);
+    const timer = setTimeout(() => setLoading(false), 1000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -30,7 +30,7 @@ const Auth: React.FC = () => {
       window.location.href = '/';
     } catch (err: any) {
       setError(err.message || "Registration error");
-       console.error('Appwrite error:', err);
+      console.error('Appwrite error:', err);
     }
   };
 
@@ -42,6 +42,7 @@ const Auth: React.FC = () => {
       window.location.href = '/';
     } catch (err: any) {
       setError(err.message || "Login error");
+      console.error('Appwrite error:', err);
     }
   };
 
