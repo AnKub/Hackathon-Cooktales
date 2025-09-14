@@ -1,5 +1,4 @@
 # Cooktales
-
 ## Project Description
 
 **Cooktales** is a modern web app for searching, saving, and generating recipes — designed especially for people who often cook for themselves, and for those who live alone. The idea is to help anyone prepare something tasty, even with a limited set of ingredients, when there’s no one around (yet!) to cook for them.
