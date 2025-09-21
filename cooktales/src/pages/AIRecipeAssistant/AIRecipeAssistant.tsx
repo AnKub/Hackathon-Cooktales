@@ -3,6 +3,14 @@ import './AIRecipeAssistant.scss';
 
 const mealTypes = ['Breakfast', 'Lunch', 'Dinner'];
 
+const AIRecipeCard: React.FC<{ recipe: any; onClick: () => void }> = ({ recipe, onClick }) => (
+  <div className="ai-recipe-card" onClick={onClick}>
+    <span className="ai-recipe-flag">{recipe.flag}</span>
+    <h3>{recipe.name}</h3>
+    <p>{recipe.description}</p>
+  </div>
+);
+
 const AIRecipeAssistant: React.FC = () => {
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [input, setInput] = useState('');
@@ -10,6 +18,7 @@ const AIRecipeAssistant: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [recipes, setRecipes] = useState<any[]>([]);
   const [selectedRecipe, setSelectedRecipe] = useState<any | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const addIngredient = () => {
     if (input && !ingredients.includes(input.trim().toLowerCase())) {
@@ -22,25 +31,29 @@ const AIRecipeAssistant: React.FC = () => {
     setIngredients(ingredients.filter(i => i !== ing));
   };
 
-const handleSuggest = async () => {
-  setLoading(true);
-  setRecipes([]);
-  try {
-    const res = await fetch('http://localhost:3001/recipes', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ingredients,
-        mealType
-      })
-    });
-    const data = await res.json();
-    setRecipes(data);
-  } catch (e) {
+  const handleSuggest = async () => {
+    setLoading(true);
     setRecipes([]);
-  }
-  setLoading(false);
-};
+    setError(null);
+    try {
+      const res = await fetch('http://localhost:3001/recipes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ingredients, mealType })
+      });
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setRecipes(data);
+      } else {
+        setRecipes([]);
+        setError(data.error || 'AI did not return recipes.');
+      }
+    } catch (e) {
+      setRecipes([]);
+      setError('Server error. Try again later.');
+    }
+    setLoading(false);
+  };
 
   return (
     <div className="ai-assistant-page">
@@ -79,18 +92,18 @@ const handleSuggest = async () => {
       </button>
       {loading && (
         <div className="ai-loader">
-          {/* Тут SVG-анімація казанка */}
           <span role="img" aria-label="cauldron">🧙‍♀️🍲</span>
           <p>AI is thinking...</p>
         </div>
       )}
-        <div className="ai-recipes">
-        {recipes.map(recipe => (
-          <div key={recipe.name} className="ai-recipe-card" onClick={() => setSelectedRecipe(recipe)}>
-            <span className="ai-recipe-flag">{recipe.flag}</span>
-            <h3>{recipe.name}</h3>
-            <p>{recipe.description}</p>
-          </div>
+      {error && (
+        <div className="ai-error">
+          <span>{error}</span>
+        </div>
+      )}
+      <div className="ai-recipes">
+        {Array.isArray(recipes) && recipes.map(recipe => (
+          <AIRecipeCard key={recipe.name} recipe={recipe} onClick={() => setSelectedRecipe(recipe)} />
         ))}
       </div>
       {selectedRecipe && (
@@ -99,7 +112,6 @@ const handleSuggest = async () => {
             <button className="ai-modal-close" onClick={() => setSelectedRecipe(null)}>×</button>
             <h3>{selectedRecipe.name} {selectedRecipe.flag}</h3>
             <p>{selectedRecipe.description}</p>
-           
             <button className="ai-favorite-btn">Add to Favorites ⭐</button>
           </div>
         </div>
@@ -108,4 +120,4 @@ const handleSuggest = async () => {
   );
 };
 
-export default AIRecipeAssistant;
+export default AIRecipeAssistant; 
