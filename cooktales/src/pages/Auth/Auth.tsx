@@ -14,7 +14,7 @@ const Auth: React.FC = () => {
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1000);
+    const timer = setTimeout(() => setLoading(false), 2500);
     return () => clearTimeout(timer);
   }, []);
 
