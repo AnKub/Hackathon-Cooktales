@@ -8,6 +8,7 @@ const Auth: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
@@ -21,15 +22,19 @@ const Auth: React.FC = () => {
     e.preventDefault();
     setError(null);
     if (password !== repeatPassword) {
-      setError("Passwords do not match");
+      setError('Passwords do not match');
+      return;
+    }
+    if (!name.trim()) {
+      setError('Name is required');
       return;
     }
     try {
-      await account.create('unique()', email, password);
+      await account.create(email, password, name);
       await account.createSession(email, password);
       window.location.href = '/';
     } catch (err: any) {
-      setError(err.message || "Registration error");
+      setError(err.message || 'Registration error');
       console.error('Appwrite error:', err);
     }
   };
@@ -41,7 +46,7 @@ const Auth: React.FC = () => {
       await account.createSession(email, password);
       window.location.href = '/';
     } catch (err: any) {
-      setError(err.message || "Login error");
+      setError(err.message || 'Login error');
       console.error('Appwrite error:', err);
     }
   };
@@ -56,6 +61,15 @@ const Auth: React.FC = () => {
         <div className="auth-form-wrapper">
           <h2>{isLogin ? 'Login' : 'Register'}</h2>
           <form className="auth-form" onSubmit={isLogin ? login : register}>
+            {!isLogin && (
+              <input
+                type="text"
+                placeholder="Name"
+                required
+                value={name}
+                onChange={e => setName(e.target.value)}
+              />
+            )}
             <input
               type="email"
               placeholder="Email"
