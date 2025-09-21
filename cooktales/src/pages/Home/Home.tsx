@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { addFavorite, removeFavorite, getFavorites } from '../../api/favorites';
+import { account } from '../../appwrite';
 import './Home.scss';
 
 type Recipe = {
@@ -19,6 +20,19 @@ const Home: React.FC = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
+  const [user, setUser] = useState<any>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const current = await account.get();
+        setUser(current);
+      } catch {
+        setUser(null);
+      }
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -49,6 +63,11 @@ const Home: React.FC = () => {
   }, []);
 
   const handleFavorite = async (recipe: Recipe) => {
+    if (!user) {
+      setShowAuthModal(true);
+      setTimeout(() => setShowAuthModal(false), 1000);
+      return;
+    }
     if (favorites.includes(recipe.idMeal)) {
       await removeFavorite(recipe.idMeal);
       setFavorites(favorites.filter(id => id !== recipe.idMeal));
@@ -116,6 +135,11 @@ const Home: React.FC = () => {
             ))}
           </div>
         </>
+      )}
+      {showAuthModal && (
+        <div className="auth-modal-reminder">
+          <span>Sorry, you are not authorized</span>
+        </div>
       )}
     </div>
   );

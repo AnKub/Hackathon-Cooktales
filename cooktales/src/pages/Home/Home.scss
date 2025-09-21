@@ -1,3 +1,27 @@
+
+.auth-modal-reminder {
+  position: fixed;
+  left: 50%;
+  top: 10%;
+  transform: translate(-50%, 0) scale(1);
+  background: var(--card-bg);
+  color: var(--accent);
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+  padding: 1.2rem 2.2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  z-index: 3000;
+  opacity: 1;
+  animation: fadeShrink 2s forwards;
+}
+
+@keyframes fadeShrink {
+  0% { opacity: 0; transform: translate(-50%, 0) scale(0.8);}
+  10% { opacity: 1; transform: translate(-50%, 0) scale(1);}
+  80% { opacity: 1; transform: translate(-50%, 0) scale(1);}
+  100% { opacity: 0; transform: translate(-50%, 0) scale(0.7);}
+}
 .home-page {
   padding: 2rem;
   min-height: 100vh;

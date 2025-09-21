@@ -50,7 +50,7 @@ const Auth: React.FC = () => {
     <div className="auth-page">
       {loading ? (
         <div className="auth-loader">
-          <img src="/images/yellow.png" alt="Loading..." className="auth-loader-img" />
+          <img src="/images/yellow.svg" alt="Loading..." className="auth-loader-img" />
         </div>
       ) : (
         <div className="auth-form-wrapper">

@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Header.scss';
+import { useTheme } from '../../context/ThemeContext'; 
 
 const Header: React.FC = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const { theme, toggleTheme } = useTheme(); 
   const navigate = useNavigate();
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    document.body.classList.remove('theme-light', 'theme-dark');
-    document.body.classList.add(`theme-${newTheme}`);
-  };
 
   return (
     <header className="header-glass">

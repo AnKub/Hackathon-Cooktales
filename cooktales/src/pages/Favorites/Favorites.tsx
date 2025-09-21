@@ -1,7 +1,9 @@
+
 import React, { useEffect, useState } from 'react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
-import { getFavorites, removeFavorite} from '../../api/favorites';
+import { getFavorites, removeFavorite } from '../../api/favorites';
 import type { FavoriteRecipe } from '../../api/favorites';
+// import { account } from '../../appwrite';
 import './Favorites.scss';
 
 const Favorites: React.FC = () => {
@@ -15,10 +17,10 @@ const Favorites: React.FC = () => {
     fetchFavorites();
   }, []);
 
-  const handleRemoveFavorite = async (id: string) => {
-    await removeFavorite(id);
-    setFavorites(favorites.filter(f => f.id !== id));
-  };
+ const handleRemoveFavorite = async (id: string) => {
+  await removeFavorite(id);
+  setFavorites(favorites.filter(f => f.id !== id));
+};
 
   return (
     <div className="favorites-page">
