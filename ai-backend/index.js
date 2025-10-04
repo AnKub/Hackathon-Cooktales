@@ -12,6 +12,9 @@ const openai = new OpenAI({
 });
 
 app.post('/recipes', async (req, res) => {
+  console.log('POST /recipes called');
+  console.log('Request body:', req.body);
+
   const { ingredients, mealType } = req.body;
   const prompt = `I want to cook ${mealType}. Here are the ingredients: ${ingredients.join(', ')}. Suggest 2 recipes in the format of a JSON array with the following fields: name, country, flag, description, ingredients, steps. Respond ONLY with a valid JSON array, no explanation, no markdown, no comments.`;
 
@@ -27,16 +30,19 @@ app.post('/recipes', async (req, res) => {
     const jsonStart = text.indexOf('[');
     const jsonEnd = text.lastIndexOf(']');
     if (jsonStart === -1 || jsonEnd === -1) {
+      console.error('No array in response:', text);
       return res.status(500).json({ error: 'No array in response', raw: text });
     }
     let recipes;
     try {
       recipes = JSON.parse(text.slice(jsonStart, jsonEnd + 1));
     } catch (err) {
+      console.error('Invalid JSON from AI:', text);
       return res.status(500).json({ error: 'Invalid JSON from AI', raw: text });
     }
     res.json(recipes);
   } catch (e) {
+    console.error('AI error:', e);
     res.status(500).json({ error: "AI response parse error", raw: e.message });
   }
 });
