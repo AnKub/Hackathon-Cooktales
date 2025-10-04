@@ -19,12 +19,12 @@ app.post('/recipes', async (req, res) => {
   const prompt = `I want to cook ${mealType}. Here are the ingredients: ${ingredients.join(', ')}. Suggest 2 recipes in the format of a JSON array with the following fields: name, country, flag, description, ingredients, steps. Respond ONLY with a valid JSON array, no explanation, no markdown, no comments.`;
 
   try {
-    const completion = await openai.createChatCompletion({
+    const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
     });
-    const text = completion.data.choices[0].message.content;
+    const text = completion.choices[0].message.content;
     console.log('AI raw response:', text);
 
     const jsonStart = text.indexOf('[');
