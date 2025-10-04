@@ -1,8 +1,14 @@
-import { databases, account } from '../appwrite';
-import { ID, Query } from 'appwrite';
-
-const databaseId = '68c2f0a00000b8313818';
-const collectionId = 'favorites'; 
+import { db } from '../firebase';
+import { auth } from '../firebase';
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  deleteDoc,
+  doc
+} from "firebase/firestore";
 
 export type FavoriteRecipe = {
   id: string;
@@ -13,28 +19,24 @@ export type FavoriteRecipe = {
 };
 
 export async function getFavorites(): Promise<FavoriteRecipe[]> {
-  const user = await account.get();
-  const userId = user.$id;
-  console.log('getFavorites userId:', userId);
-  const res = await databases.listDocuments(databaseId, collectionId, [
-    Query.equal('userId', userId)
-  ]);
-  return res.documents.map((doc: any) => ({
-    id: doc.recipeId,
-    title: doc.title,
-    image: doc.image,
-    shortDescription: doc.shortDescription,
-    fullRecipe: doc.fullRecipe,
+  const user = auth.currentUser;
+  if (!user) return [];
+  const q = query(collection(db, "favorites"), where("userId", "==", user.uid));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    title: doc.data().title,
+    image: doc.data().image,
+    shortDescription: doc.data().shortDescription,
+    fullRecipe: doc.data().fullRecipe,
   }));
 }
 
 export async function addFavorite(recipe: FavoriteRecipe) {
-  const user = await account.get();
-  const userId = user.$id;
-  console.log('addFavorite userId:', userId);
-  await databases.createDocument(databaseId, collectionId, ID.unique(), {
-    userId,
-    recipeId: recipe.id,
+  const user = auth.currentUser;
+  if (!user) return;
+  await addDoc(collection(db, "favorites"), {
+    userId: user.uid,
     title: recipe.title,
     image: recipe.image,
     shortDescription: recipe.shortDescription,
@@ -43,14 +45,15 @@ export async function addFavorite(recipe: FavoriteRecipe) {
 }
 
 export async function removeFavorite(recipeId: string) {
-  const user = await account.get();
-  const userId = user.$id;
-  console.log('removeFavorite userId:', userId);
-  const res = await databases.listDocuments(databaseId, collectionId, [
-    Query.equal('userId', userId),
-    Query.equal('recipeId', recipeId)
-  ]);
-  if (res.documents.length > 0) {
-    await databases.deleteDocument(databaseId, collectionId, res.documents[0].$id);
+  const user = auth.currentUser;
+  if (!user) return;
+  const q = query(
+    collection(db, "favorites"),
+    where("userId", "==", user.uid),
+    where("title", "==", recipeId) 
+  );
+  const querySnapshot = await getDocs(q);
+  for (const d of querySnapshot.docs) {
+    await deleteDoc(doc(db, "favorites", d.id));
   }
 }

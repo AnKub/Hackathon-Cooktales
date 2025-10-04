@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { addFavorite, removeFavorite, getFavorites } from '../../api/favorites';
-import { account } from '../../appwrite';
+import { account } from '../../firebase';
 import './Home.scss';
 
 type Recipe = {

@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { account } from '../../appwrite';
+import { auth } from '../../firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile
+} from "firebase/auth";
 import './Auth.scss';
 
 const Auth: React.FC = () => {
@@ -30,12 +35,12 @@ const Auth: React.FC = () => {
       return;
     }
     try {
-      await account.create(email, password, name);
-      await account.createSession(email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, { displayName: name });
       window.location.href = '/';
     } catch (err: any) {
       setError(err.message || 'Registration error');
-      console.error('Appwrite error:', err);
+      console.error('Firebase error:', err);
     }
   };
 
@@ -43,11 +48,11 @@ const Auth: React.FC = () => {
     e.preventDefault();
     setError(null);
     try {
-      await account.createSession(email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       window.location.href = '/';
     } catch (err: any) {
       setError(err.message || 'Login error');
-      console.error('Appwrite error:', err);
+      console.error('Firebase error:', err);
     }
   };
 
