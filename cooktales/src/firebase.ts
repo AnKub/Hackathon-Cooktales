@@ -3,13 +3,13 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDuuSunyLpS8tjkY69ZSkrrC9CDdUbHPbo",
-  authDomain: "cooktales-e0bf1.firebaseapp.com",
-  projectId: "cooktales-e0bf1",
-  storageBucket: "cooktales-e0bf1.appspot.com",
-  messagingSenderId: "778495762161",
-  appId: "1:778495762161:web:1575014b2e166e40715350",
-  measurementId: "G-2JQ4VNVNNS"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
