@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { addFavorite, removeFavorite, getFavorites } from '../../api/favorites';
-import { account } from '../../firebase';
+import { auth } from '../../firebase';
 import './Home.scss';
 
 type Recipe = {
@@ -22,16 +22,12 @@ const Home: React.FC = () => {
   const [search, setSearch] = useState('');
   const [user, setUser] = useState<any>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
+
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const current = await account.get();
-        setUser(current);
-      } catch {
-        setUser(null);
-      }
-    };
-    fetchUser();
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -60,7 +56,7 @@ const Home: React.FC = () => {
       }
     };
     fetchFavoritesIds();
-  }, []);
+  }, [user]); // оновлюємо улюблені при зміні користувача
 
   const handleFavorite = async (recipe: Recipe) => {
     if (!user) {

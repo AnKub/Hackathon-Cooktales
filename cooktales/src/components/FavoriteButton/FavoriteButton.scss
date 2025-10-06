@@ -1,0 +1,17 @@
+.favorite-btn {
+  position: absolute;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+  z-index: 2;
+  color: rgba(0,0,0,0.18);
+
+  &:hover {
+    color: #e53935;
+    transform: scale(1.15);
+  }
+}

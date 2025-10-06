@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import FavoriteButton from '../FavoriteButton/FavoriteButton';
 import './RecipeCard.scss';
 import { useNavigate } from 'react-router-dom';
 
@@ -43,15 +44,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
         </div>
         <h2 className="recipe-card__title">{title}</h2>
         <div className="recipe-card__desc">{shortDescription}</div>
-        <button
-          onClick={onFavorite}
-          className="recipe-card__favorite"
-          aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-          tabIndex={0}
-          style={{ color: isFavorite ? '#e53935' : 'rgba(0,0,0,0.18)' }}
-        >
-          {isFavorite ? '❤️' : '🤍'}
-        </button>
+      <FavoriteButton isFavorite={isFavorite} onToggle={onFavorite} />
       </div>
 
       {showModal && (
