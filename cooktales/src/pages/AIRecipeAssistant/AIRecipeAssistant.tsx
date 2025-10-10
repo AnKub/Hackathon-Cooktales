@@ -36,7 +36,7 @@ const AIRecipeAssistant: React.FC = () => {
     setRecipes([]);
     setError(null);
     try {
-      const res = await fetch('http://localhost:3001/recipes', {
+        const res = await fetch('/api/recipes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ingredients, mealType })
