@@ -21,9 +21,16 @@ const AIRecipeAssistant: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const addIngredient = () => {
-    if (input && !ingredients.includes(input.trim().toLowerCase())) {
-      setIngredients([...ingredients, input.trim().toLowerCase()]);
+    const trimmedInput = input.trim().toLowerCase();
+    if (trimmedInput && !ingredients.includes(trimmedInput)) {
+      setIngredients([...ingredients, trimmedInput]);
       setInput('');
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      addIngredient();
     }
   };
 
@@ -32,25 +39,36 @@ const AIRecipeAssistant: React.FC = () => {
   };
 
   const handleSuggest = async () => {
+    if (ingredients.length === 0) {
+      setError('Please add at least one ingredient');
+      return;
+    }
+
     setLoading(true);
     setRecipes([]);
     setError(null);
+    
     try {
-        const res = await fetch('/api/recipes', {
+      const res = await fetch('/api/recipes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ingredients, mealType })
       });
+      
       const data = await res.json();
-      if (Array.isArray(data)) {
+      
+      if (!res.ok) {
+        throw new Error(data.error || `Server error: ${res.status}`);
+      }
+      
+      if (Array.isArray(data) && data.length > 0) {
         setRecipes(data);
       } else {
-        setRecipes([]);
-        setError(data.error || 'AI did not return recipes.');
+        setError('AI did not return any recipes. Try different ingredients.');
       }
-    } catch (e) {
-      setRecipes([]);
-      setError('Server error. Try again later.');
+    } catch (e: any) {
+      console.error('Error fetching recipes:', e);
+      setError(e.message || 'Server error. Try again later.');
     }
     setLoading(false);
   };
@@ -63,9 +81,10 @@ const AIRecipeAssistant: React.FC = () => {
           type="text"
           value={input}
           onChange={e => setInput(e.target.value)}
+          onKeyPress={handleKeyPress}
           placeholder="Enter ingredient..."
         />
-        <button onClick={addIngredient}>Add</button>
+        <button onClick={addIngredient} disabled={!input.trim()}>Add</button>
       </div>
       <div className="ai-ingredients">
         {ingredients.map(ing => (
@@ -87,31 +106,49 @@ const AIRecipeAssistant: React.FC = () => {
           </label>
         ))}
       </div>
-      <button className="ai-suggest-btn" onClick={handleSuggest} disabled={loading || ingredients.length === 0}>
-        Suggest Recipes
+      <button 
+        className="ai-suggest-btn" 
+        onClick={handleSuggest} 
+        disabled={loading || ingredients.length === 0}
+      >
+        {loading ? 'Generating...' : 'Suggest Recipes'}
       </button>
+      
       {loading && (
         <div className="ai-loader">
           <span role="img" aria-label="cauldron">🧙‍♀️🍲</span>
           <p>AI is thinking...</p>
         </div>
       )}
+      
       {error && (
         <div className="ai-error">
           <span>{error}</span>
         </div>
       )}
+      
       <div className="ai-recipes">
-        {Array.isArray(recipes) && recipes.map(recipe => (
-          <AIRecipeCard key={recipe.name} recipe={recipe} onClick={() => setSelectedRecipe(recipe)} />
+        {recipes.map((recipe, index) => (
+          <AIRecipeCard 
+            key={recipe.name + index} 
+            recipe={recipe} 
+            onClick={() => setSelectedRecipe(recipe)} 
+          />
         ))}
       </div>
+      
       {selectedRecipe && (
-        <div className="ai-modal">
-          <div className="ai-modal-content">
+        <div className="ai-modal" onClick={() => setSelectedRecipe(null)}>
+          <div className="ai-modal-content" onClick={e => e.stopPropagation()}>
             <button className="ai-modal-close" onClick={() => setSelectedRecipe(null)}>×</button>
             <h3>{selectedRecipe.name} {selectedRecipe.flag}</h3>
-            <p>{selectedRecipe.description}</p>
+            <p><strong>Description:</strong> {selectedRecipe.description}</p>
+            {selectedRecipe.ingredients && (
+              <p><strong>Ingredients:</strong> {selectedRecipe.ingredients}</p>
+            )}
+            {selectedRecipe.steps && (
+              <p><strong>Steps:</strong> {selectedRecipe.steps}</p>
+            )}
             <button className="ai-favorite-btn">Add to Favorites ⭐</button>
           </div>
         </div>
@@ -120,4 +157,4 @@ const AIRecipeAssistant: React.FC = () => {
   );
 };
 
-export default AIRecipeAssistant; 
+export default AIRecipeAssistant;

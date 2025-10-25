@@ -56,7 +56,7 @@ const Home: React.FC = () => {
       }
     };
     fetchFavoritesIds();
-  }, [user]); // оновлюємо улюблені при зміні користувача
+  }, [user]); // оновлює при зміні юзера
 
   const handleFavorite = async (recipe: Recipe) => {
     if (!user) {
