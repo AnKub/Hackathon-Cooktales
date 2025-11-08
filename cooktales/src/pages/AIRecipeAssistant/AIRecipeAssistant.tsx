@@ -25,11 +25,11 @@ const AIRecipeAssistant: React.FC = () => {
   const [error, setError] = useState<ErrorState | null>(null);
   const [backendStatus, setBackendStatus] = useState<'unknown' | 'online' | 'offline'>('unknown');
   const [favoriteRecipes, setFavoriteRecipes] = useState<Set<string>>(new Set());
+  const [currentIngredient, setCurrentIngredient] = useState<string>('');
+  const [lastRequestTime, setLastRequestTime] = useState<number>(0);
 
-  // Константа для URL бекенду
   const AI_BACKEND_URL = import.meta.env.VITE_AI_BACKEND_URL || 'http://localhost:3001';
 
-  // Перевірка статусу бекенду при завантаженні компонента
   React.useEffect(() => {
     checkBackendHealth();
   }, []);
@@ -55,22 +55,16 @@ const AIRecipeAssistant: React.FC = () => {
   };
 
   const addIngredient = () => {
-    setIngredients([...ingredients, '']);
-  };
-
-  const removeIngredient = (index: number) => {
-    if (ingredients.length > 1) {
-      setIngredients(ingredients.filter((_, i) => i !== index));
+    if (currentIngredient.trim()) {
+      setIngredients([...ingredients.filter(ing => ing.trim()), currentIngredient.trim()]);
+      setCurrentIngredient('');
     }
   };
 
-  const updateIngredient = (index: number, value: string) => {
-    const newIngredients = [...ingredients];
-    newIngredients[index] = value;
-    setIngredients(newIngredients);
+  const removeIngredient = (index: number) => {
+    setIngredients(ingredients.filter((_, i) => i !== index));
   };
 
-  // Функція для створення короткого опису
   const createShortDescription = (aiRecipe: AIRecipe): string => {
     const ingredientsList = aiRecipe.ingredients.slice(0, 3).join(', ');
     const remainingCount = aiRecipe.ingredients.length - 3;
@@ -81,18 +75,14 @@ const AIRecipeAssistant: React.FC = () => {
     return `${aiRecipe.flag} ${aiRecipe.country} cuisine. Made with: ${ingredientsText}. ${aiRecipe.description}`;
   };
 
-  // Функція для створення повного рецепта
   const createFullRecipe = (aiRecipe: AIRecipe): string => {
     const ingredientsSection = `🥘 INGREDIENTS:\n${aiRecipe.ingredients.map((ing, idx) => `${idx + 1}. ${ing}`).join('\n')}`;
-    
     const stepsSection = `👨‍🍳 COOKING STEPS:\n${aiRecipe.steps.map((step, idx) => `${idx + 1}. ${step}`).join('\n\n')}`;
-    
     const headerSection = `${aiRecipe.flag} ${aiRecipe.country} Recipe\n${aiRecipe.description}\n\n`;
     
     return `${headerSection}${ingredientsSection}\n\n${stepsSection}`;
   };
 
-  // Функція для toggle favorite
   const handleFavoriteToggle = (recipeId: string) => {
     setFavoriteRecipes(prev => {
       const newFavorites = new Set(prev);
@@ -106,10 +96,20 @@ const AIRecipeAssistant: React.FC = () => {
   };
 
   const handleSuggest = async () => {
-    // Валідація на клієнті
-    const validIngredients = ingredients
-      .filter(ing => ing && ing.trim().length > 0)
-      .map(ing => ing.trim());
+    const now = Date.now();
+    const timeSinceLastRequest = now - lastRequestTime;
+    const minInterval = 3000;
+
+    if (timeSinceLastRequest < minInterval) {
+      const waitTime = Math.ceil((minInterval - timeSinceLastRequest) / 1000);
+      setError({
+        message: `Please wait ${waitTime} seconds before making another request`,
+        type: 'rate_limit'
+      });
+      return;
+    }
+
+    const validIngredients = ingredients.filter(ing => ing && ing.trim().length > 0);
 
     if (validIngredients.length === 0) {
       setError({
@@ -119,17 +119,10 @@ const AIRecipeAssistant: React.FC = () => {
       return;
     }
 
-    if (!mealType || mealType.trim().length === 0) {
-      setError({
-        message: 'Please select a meal type',
-        type: 'validation'
-      });
-      return;
-    }
-
     setLoading(true);
     setError(null);
     setRecipes([]);
+    setLastRequestTime(now);
 
     try {
       console.log('🚀 Sending request to AI backend...');
@@ -179,7 +172,6 @@ const AIRecipeAssistant: React.FC = () => {
         return;
       }
 
-      // Валідація структури кожного рецепта
       const validRecipes = data.filter((recipe: any) => {
         const required = ['name', 'country', 'flag', 'description', 'ingredients', 'steps'];
         return required.every(field => recipe[field] && 
@@ -200,7 +192,6 @@ const AIRecipeAssistant: React.FC = () => {
     } catch (error) {
       console.error('💥 Error in handleSuggest:', error);
       
-      // Розрізняємо типи помилок для кращого UX
       if (error instanceof TypeError && error.message.includes('fetch')) {
         setError({
           message: 'Unable to connect to AI service',
@@ -223,158 +214,108 @@ const AIRecipeAssistant: React.FC = () => {
     handleSuggest();
   };
 
-  const handleCheckBackend = () => {
-    checkBackendHealth();
-  };
-
   return (
-    <div className="ai-recipe-assistant">
-      <div className="container">
-        <div className="ai-header">
-          <h1>🤖 AI Recipe Assistant</h1>
-          <p>Tell me what ingredients you have, and I'll suggest delicious recipes!</p>
-          
-          {/* Статус бекенду */}
-          <div className={`backend-status backend-status--${backendStatus}`}>
-            <span className="status-indicator"></span>
-            <span className="status-text">
-              AI Backend: {backendStatus === 'online' ? 'Online' : backendStatus === 'offline' ? 'Offline' : 'Checking...'}
-            </span>
-            {backendStatus === 'offline' && (
-              <button onClick={handleCheckBackend} className="retry-button">
-                Check Again
-              </button>
-            )}
-          </div>
-        </div>
+    <div className="ai-assistant-page">
+      <h2>🤖 AI Recipe Assistant</h2>
 
-        <div className="ai-form">
-          <div className="form-section">
-            <h3>Ingredients</h3>
-            <div className="ingredients-list">
-              {ingredients.map((ingredient, index) => (
-                <div key={index} className="ingredient-input">
-                  <input
-                    type="text"
-                    value={ingredient}
-                    onChange={(e) => updateIngredient(index, e.target.value)}
-                    placeholder={`Ingredient ${index + 1}`}
-                    className="input"
-                  />
-                  {ingredients.length > 1 && (
-                    <button
-                      onClick={() => removeIngredient(index)}
-                      className="remove-button"
-                      type="button"
-                    >
-                      ✕
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-            <button onClick={addIngredient} className="add-button" type="button">
-              + Add Ingredient
-            </button>
-          </div>
-
-          <div className="form-section">
-            <h3>Meal Type</h3>
-            <select
-              value={mealType}
-              onChange={(e) => setMealType(e.target.value)}
-              className="select"
-            >
-              <option value="breakfast">🌅 Breakfast</option>
-              <option value="lunch">☀️ Lunch</option>
-              <option value="dinner">🌙 Dinner</option>
-              <option value="snack">🍪 Snack</option>
-              <option value="dessert">🍰 Dessert</option>
-            </select>
-          </div>
-
-          <button
-            onClick={handleSuggest}
-            disabled={loading || backendStatus === 'offline'}
-            className={`suggest-button ${loading ? 'loading' : ''}`}
-          >
-            {loading ? (
-              <>
-                <span className="spinner"></span>
-                Generating recipes...
-              </>
-            ) : (
-              <>🎯 Get Recipe Suggestions</>
-            )}
+      <div className="backend-status">
+        <span className={`status-indicator status-indicator--${backendStatus}`}></span>
+        <span>AI Backend: {backendStatus === 'online' ? 'Online' : backendStatus === 'offline' ? 'Offline' : 'Checking...'}</span>
+        {backendStatus === 'offline' && (
+          <button onClick={checkBackendHealth} className="retry-button">
+            Check Again
           </button>
-        </div>
-
-        {/* Обробка помилок */}
-        {error && (
-          <div className={`error-message error-message--${error.type}`}>
-            <div className="error-content">
-              <h4>❌ {error.message}</h4>
-              {error.details && <p>{error.details}</p>}
-              {error.type === 'connection' && (
-                <div className="error-actions">
-                  <p>Try these steps:</p>
-                  <ul>
-                    <li>Make sure AI backend is running: <code>cd ai-backend && npm start</code></li>
-                    <li>Check if port 3001 is available</li>
-                    <li>Verify your OpenAI API key in .env file</li>
-                  </ul>
-                </div>
-              )}
-              <button onClick={handleRetry} className="retry-button">
-                Try Again
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Результати */}
-        {recipes.length > 0 && (
-          <div className="ai-results">
-            <h2>🍽️ AI Suggested Recipes ({recipes.length})</h2>
-            <div className="recipes-grid">
-              {recipes.map((aiRecipe, index) => {
-                const recipeId = `ai-recipe-${index}`;
-                const placeholderImage = `https://via.placeholder.com/300x200/667eea/white?text=${encodeURIComponent(aiRecipe.name)}`;
-                
-                return (
-                  <div key={recipeId} className="ai-recipe-card-wrapper">
-                    <div className="ai-badge">
-                      🤖 AI Generated
-                    </div>
-                    
-                    <RecipeCard
-                      id={recipeId}
-                      title={aiRecipe.name}
-                      image={placeholderImage}
-                      shortDescription={createShortDescription(aiRecipe)}
-                      fullRecipe={createFullRecipe(aiRecipe)}
-                      isFavorite={favoriteRecipes.has(recipeId)}
-                      onFavorite={() => handleFavoriteToggle(recipeId)}
-                    />
-                    
-                    <div className="country-info">
-                      {aiRecipe.flag} {aiRecipe.country} Cuisine
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* Якщо немає результатів і немає помилки */}
-        {!loading && recipes.length === 0 && !error && (
-          <div className="no-results">
-            <h3>🔍 No recipes yet</h3>
-            <p>Add some ingredients and click "Get Recipe Suggestions" to start!</p>
-          </div>
         )}
       </div>
+
+      <div className="ai-input-block">
+        <input
+          type="text"
+          value={currentIngredient}
+          onChange={(e) => setCurrentIngredient(e.target.value)}
+          placeholder="Add ingredient..."
+          onKeyPress={(e) => e.key === 'Enter' && addIngredient()}
+        />
+        <button onClick={addIngredient} disabled={!currentIngredient.trim()}>
+          Add
+        </button>
+      </div>
+
+      <div className="ai-ingredients">
+        {ingredients.filter(ing => ing.trim()).map((ingredient, index) => (
+          <div key={index} className="ai-ingredient">
+            {ingredient}
+            <button onClick={() => removeIngredient(index)}>×</button>
+          </div>
+        ))}
+      </div>
+
+      <div className="ai-meal-type">
+        {['breakfast', 'lunch', 'dinner', 'snack', 'dessert'].map((type) => (
+          <label key={type}>
+            <input
+              type="radio"
+              name="mealType"
+              value={type}
+              checked={mealType === type}
+              onChange={(e) => setMealType(e.target.value)}
+            />
+            {type.charAt(0).toUpperCase() + type.slice(1)}
+          </label>
+        ))}
+      </div>
+
+      <button
+        onClick={handleSuggest}
+        disabled={loading || backendStatus === 'offline'}
+        className="ai-suggest-btn"
+      >
+        {loading ? 'Generating...' : '🎯 Get Recipe Suggestions'}
+      </button>
+
+      {loading && (
+        <div className="ai-loader">
+          🤖
+          <p>AI is cooking up some recipes...</p>
+        </div>
+      )}
+
+      {error && (
+        <div className={`error-message error-message--${error.type}`}>
+          <h4>❌ {error.message}</h4>
+          {error.details && <p>{error.details}</p>}
+          <button onClick={handleRetry} className="retry-button">
+            Try Again
+          </button>
+        </div>
+      )}
+
+      {recipes.length > 0 && (
+        <div className="ai-recipes">
+          {recipes.map((aiRecipe, index) => {
+            const recipeId = `ai-recipe-${index}`;
+            const placeholderImage = `https://via.placeholder.com/300x200/ff914d/ffffff?text=${encodeURIComponent(aiRecipe.name)}`;
+            
+            return (
+              <div key={recipeId} className="ai-recipe-card">
+                <div className="ai-recipe-flag">{aiRecipe.flag}</div>
+                <h3>{aiRecipe.name}</h3>
+                <p>{aiRecipe.country} • {aiRecipe.description}</p>
+                
+                <RecipeCard
+                  id={recipeId}
+                  title={aiRecipe.name}
+                  image={placeholderImage}
+                  shortDescription={createShortDescription(aiRecipe)}
+                  fullRecipe={createFullRecipe(aiRecipe)}
+                  isFavorite={favoriteRecipes.has(recipeId)}
+                  onFavorite={() => handleFavoriteToggle(recipeId)}
+                />
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
