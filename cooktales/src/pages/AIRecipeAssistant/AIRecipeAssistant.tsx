@@ -198,10 +198,10 @@ const AIRecipeAssistant: React.FC = () => {
       setRecipes(validRecipes);
       console.log(`✅ Successfully loaded ${validRecipes.length} recipes`);
 
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('💥 Error in handleSuggest:', error);
       
-      if (error.name === 'AbortError') {
+      if (error instanceof Error && error.name === 'AbortError') {
         setError({
           message: 'Request timed out. Please try again.',
           type: 'timeout'
@@ -212,7 +212,7 @@ const AIRecipeAssistant: React.FC = () => {
           details: 'Please make sure the AI backend is running on port 3001',
           type: 'connection'
         });
-      } else if (error.message.includes('Rate limit') || error.message.includes('429')) {
+      } else if (error instanceof Error && (error.message.includes('Rate limit') || error.message.includes('429'))) {
         setError({
           message: 'Too many requests. Please wait 2-3 minutes before trying again.',
           details: 'OpenAI API has usage limits to prevent abuse.',
