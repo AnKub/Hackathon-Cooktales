@@ -98,12 +98,12 @@ const AIRecipeAssistant: React.FC = () => {
   const handleSuggest = async () => {
     const now = Date.now();
     const timeSinceLastRequest = now - lastRequestTime;
-    const minInterval = 3000;
+    const minInterval = 10000; // Збільшено до 10 секунд
 
-    if (timeSinceLastRequest < minInterval) {
+    if (timeSinceLastRequest < minInterval && lastRequestTime > 0) {
       const waitTime = Math.ceil((minInterval - timeSinceLastRequest) / 1000);
       setError({
-        message: `Please wait ${waitTime} seconds before making another request`,
+        message: `Please wait ${waitTime} seconds before making another request to avoid rate limits`,
         type: 'rate_limit'
       });
       return;
@@ -129,6 +129,9 @@ const AIRecipeAssistant: React.FC = () => {
       console.log('📝 Ingredients:', validIngredients);
       console.log('🍽️ Meal type:', mealType);
 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 секунд timeout
+
       const response = await fetch(`${AI_BACKEND_URL}/recipes`, {
         method: 'POST',
         headers: {
@@ -137,10 +140,16 @@ const AIRecipeAssistant: React.FC = () => {
         body: JSON.stringify({
           ingredients: validIngredients,
           mealType: mealType
-        })
+        }),
+        signal: controller.signal
       });
 
+      clearTimeout(timeoutId);
       console.log('📡 Response status:', response.status);
+
+      if (response.status === 429) {
+        throw new Error('Rate limit exceeded. Please wait a few minutes before trying again.');
+      }
 
       if (!response.ok) {
         let errorMessage = `Server error: ${response.status}`;
@@ -192,11 +201,22 @@ const AIRecipeAssistant: React.FC = () => {
     } catch (error) {
       console.error('💥 Error in handleSuggest:', error);
       
-      if (error instanceof TypeError && error.message.includes('fetch')) {
+      if (error.name === 'AbortError') {
+        setError({
+          message: 'Request timed out. Please try again.',
+          type: 'timeout'
+        });
+      } else if (error instanceof TypeError && error.message.includes('fetch')) {
         setError({
           message: 'Unable to connect to AI service',
           details: 'Please make sure the AI backend is running on port 3001',
           type: 'connection'
+        });
+      } else if (error.message.includes('Rate limit') || error.message.includes('429')) {
+        setError({
+          message: 'Too many requests. Please wait 2-3 minutes before trying again.',
+          details: 'OpenAI API has usage limits to prevent abuse.',
+          type: 'rate_limit'
         });
       } else {
         setError({
@@ -211,6 +231,14 @@ const AIRecipeAssistant: React.FC = () => {
 
   const handleRetry = () => {
     setError(null);
+    // Не викликаємо handleSuggest автоматично при rate limit помилці
+    if (error?.type === 'rate_limit') {
+      setError({
+        message: 'Please wait before retrying to avoid rate limits',
+        type: 'rate_limit'
+      });
+      return;
+    }
     handleSuggest();
   };
 
@@ -270,7 +298,7 @@ const AIRecipeAssistant: React.FC = () => {
         disabled={loading || backendStatus === 'offline'}
         className="ai-suggest-btn"
       >
-        {loading ? 'Generating...' : '🎯 Get Recipe Suggestions'}
+        {loading ? 'Generating recipes... ⏳' : '🎯 Get Recipe Suggestions'}
       </button>
 
       {loading && (
@@ -284,9 +312,14 @@ const AIRecipeAssistant: React.FC = () => {
         <div className={`error-message error-message--${error.type}`}>
           <h4>❌ {error.message}</h4>
           {error.details && <p>{error.details}</p>}
-          <button onClick={handleRetry} className="retry-button">
-            Try Again
-          </button>
+          {error.type === 'rate_limit' && (
+            <p><strong>💡 Tip:</strong> Try using different ingredients or wait a few minutes.</p>
+          )}
+          {error.type !== 'rate_limit' && (
+            <button onClick={handleRetry} className="retry-button">
+              Try Again
+            </button>
+          )}
         </div>
       )}
 
