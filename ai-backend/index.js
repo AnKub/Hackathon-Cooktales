@@ -5,9 +5,8 @@ const OpenAI = require("openai");
 
 const app = express();
 
-// Покращений CORS з більш детальними налаштуваннями
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000', 'https://your-vercel-domain.vercel.app'],
+  origin: ['http://localhost:5173', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
@@ -15,7 +14,6 @@ app.use(cors({
 
 app.use(express.json({ limit: '10mb' }));
 
-// Перевірка наявності API ключа
 if (!process.env.OPENAI_API_KEY) {
   console.error('❌ OPENAI_API_KEY не знайдено в .env файлі!');
   process.exit(1);
@@ -25,13 +23,11 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-// Middleware для логування
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
   next();
 });
 
-// Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ 
     status: 'OK', 
@@ -40,7 +36,6 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Покращена валідація та обробка помилок
 app.post('/recipes', async (req, res) => {
   console.log('🍳 POST /recipes called');
   console.log('📝 Request body:', req.body);
@@ -48,7 +43,6 @@ app.post('/recipes', async (req, res) => {
   try {
     const { ingredients, mealType } = req.body;
 
-    // Валідація вхідних даних
     if (!ingredients || !Array.isArray(ingredients) || ingredients.length === 0) {
       return res.status(400).json({ 
         error: 'Invalid ingredients. Expected non-empty array.',
@@ -63,7 +57,6 @@ app.post('/recipes', async (req, res) => {
       });
     }
 
-    // Фільтрація порожніх інгредієнтів
     const validIngredients = ingredients
       .filter(ing => ing && typeof ing === 'string' && ing.trim().length > 0)
       .map(ing => ing.trim());
@@ -77,7 +70,6 @@ app.post('/recipes', async (req, res) => {
     console.log('✅ Valid ingredients:', validIngredients);
     console.log('🍽️ Meal type:', mealType);
 
-    // Покращений промпт для більш стабільного JSON
     const prompt = `Create exactly 2 recipes for ${mealType} using these ingredients: ${validIngredients.join(', ')}.
 
 Return ONLY a valid JSON array with this exact structure:
@@ -119,17 +111,14 @@ Requirements:
     const rawResponse = completion.choices[0].message.content;
     console.log('🎯 AI raw response:', rawResponse);
 
-    // Покращена обробка JSON відповіді
     let cleanedResponse = rawResponse.trim();
     
-    // Видаляємо markdown блоки якщо є
     if (cleanedResponse.startsWith('```json')) {
       cleanedResponse = cleanedResponse.replace(/```json\s*/, '').replace(/```\s*$/, '');
     } else if (cleanedResponse.startsWith('```')) {
       cleanedResponse = cleanedResponse.replace(/```\s*/, '').replace(/```\s*$/, '');
     }
 
-    // Знаходимо JSON масив
     const jsonStart = cleanedResponse.indexOf('[');
     const jsonEnd = cleanedResponse.lastIndexOf(']');
     
@@ -148,12 +137,10 @@ Requirements:
     try {
       recipes = JSON.parse(jsonString);
       
-      // Валідація структури відповіді
       if (!Array.isArray(recipes)) {
         throw new Error('Response is not an array');
       }
 
-      // Перевірка кожного рецепта
       recipes.forEach((recipe, index) => {
         const required = ['name', 'country', 'flag', 'description', 'ingredients', 'steps'];
         for (const field of required) {
@@ -184,7 +171,6 @@ Requirements:
   } catch (error) {
     console.error('💥 Server error:', error);
     
-    // Розрізняємо типи помилок
     if (error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED') {
       return res.status(503).json({ 
         error: 'Unable to connect to OpenAI service',
@@ -214,8 +200,14 @@ Requirements:
   }
 });
 
-// Обробка неіснуючих роутів
-app.use('*', (req, res) => {
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'AI Recipe Backend',
+    routes: ['/health', '/recipes']
+  });
+});
+
+app.use((req, res) => {
   res.status(404).json({ 
     error: 'Route not found',
     availableRoutes: [
@@ -225,7 +217,6 @@ app.use('*', (req, res) => {
   });
 });
 
-// Глобальна обробка помилок
 app.use((error, req, res, next) => {
   console.error('💥 Unexpected error:', error);
   res.status(500).json({ 
@@ -242,7 +233,6 @@ app.listen(PORT, () => {
   console.log(`🤖 OpenAI API key: ${process.env.OPENAI_API_KEY ? '✅ Configured' : '❌ Missing'}`);
 });
 
-// Graceful shutdown
 process.on('SIGTERM', () => {
   console.log('🛑 SIGTERM received, shutting down gracefully');
   process.exit(0);
