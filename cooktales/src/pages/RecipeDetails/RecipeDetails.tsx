@@ -60,11 +60,14 @@
 //     }
 //   };
 
+  
+
 //   if (loading) return <div className="recipe-details__loading">Loading...</div>;
 //   if (!recipe) return <div className="recipe-details__notfound">Recipe not found</div>;
 
 //   return (
 //     <div className="recipe-details">
+     
 //       <div className="recipe-details__card">
 //         <div className="recipe-details__image-wrapper">
 //           <img src={recipe.strMealThumb} alt={recipe.strMeal} className="recipe-details__image" />
