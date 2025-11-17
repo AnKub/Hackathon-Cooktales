@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import { getFavorites, removeFavorite } from '../../api/favorites';
 import type { FavoriteRecipe } from '../../api/favorites';
-// import { account } from '../../appwrite';
 import './Favorites.scss';
 
 const Favorites: React.FC = () => {
