@@ -1,77 +1,255 @@
 .recipe-details {
-  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 2rem 1rem 3rem 1rem;
-  background: transparent;
-  min-height: 100vh;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 1000;
+  overflow-y: auto;
 
-  .recipe-details__card {
+  &__loading,
+  &__notfound {
     background: var(--card-bg);
-    border-radius: 22px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    padding: 2rem;
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    
+    &::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+    }
+  }
+
+  &__card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
+    padding: 2rem;
     max-width: 600px;
     width: 100%;
+    max-height: 90vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-bottom: 2rem;
-  }
-  .recipe-details__image-wrapper {
-    width: 90%;
-    margin-bottom: 1rem;
-    border-radius: 14px;
+    position: relative;
     overflow: hidden;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin: auto;
+    
+    // Анімація появи
+    animation: modalAppear 0.3s ease-out;
+  }
+
+  &__image-wrapper {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    aspect-ratio: 16/10;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .recipe-details__image {
+
+  &__image {
     width: 100%;
-    height: 220px;
+    height: 100%;
     object-fit: cover;
-    border-radius: 12px;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.02);
+    }
   }
-  .recipe-details__title {
-    font-size: 2rem;
+
+  &__title {
+    font-size: 1.8rem;
     font-weight: 700;
-    margin: 1rem 0 1.2rem 0;
+    margin: 0 0 1.5rem 0;
     text-align: center;
     color: var(--accent);
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
   }
-  .recipe-details__instructions {
-    font-size: 1.1rem;
+
+  &__instructions {
+    font-size: 1rem;
+    line-height: 1.6;
     color: var(--text);
     text-align: left;
     margin-bottom: 2rem;
-    opacity: 0.95;
     white-space: pre-line;
-    width: 100%;
-  }
-  .recipe-details__back {
-    border-radius: 10px;
-    border: none;
-    background: var(--accent);
-    color: #fff;
-    padding: 0.6rem 1.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s, transform 0.2s;
-    &:hover {
-      background: var(--accent-hover);
-      transform: scale(1.08);
+    max-height: 40vh;
+    overflow-y: auto;
+    padding-right: 8px;
+    
+    // Кастомний скролл
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 3px;
+      opacity: 0.7;
+      
+      &:hover {
+        opacity: 1;
+      }
     }
   }
-  .recipe-details__recommendations {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    /* Тут можна додати блок з рекомендаціями */
+
+  &__back {
+    border-radius: 12px;
+    border: none;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    align-self: center;
+    
+    &:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  // Кнопка закриття (якщо потрібно)
+  &__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
+      transform: scale(1.1);
+    }
+  }
+
+  // Адаптивність для мобільних
+  @media (max-width: 768px) {
+    padding: 1rem;
+    
+    &__card {
+      padding: 1.5rem;
+      max-height: 95vh;
+      border-radius: 12px;
+    }
+    
+    &__title {
+      font-size: 1.5rem;
+    }
+    
+    &__instructions {
+      max-height: 50vh;
+      font-size: 0.95rem;
+    }
+    
+    &__back {
+      padding: 0.7rem 1.2rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  // Дуже маленькі екрани
+  @media (max-width: 480px) {
+    padding: 0.5rem;
+    
+    &__card {
+      padding: 1rem;
+      max-height: 98vh;
+    }
+    
+    &__title {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    
+    &__image-wrapper {
+      margin-bottom: 1rem;
+      aspect-ratio: 4/3;
+    }
+    
+    &__instructions {
+      max-height: 55vh;
+    }
+  }
+}
+
+// Анімація появи модального вікна
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+// Анімація обертання для лоадера
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Темна тема - додаткові стилі
+body.theme-dark .recipe-details {
+  &__card {
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+  }
+  
+  &__instructions {
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+    }
   }
 }
